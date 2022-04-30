@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+<!--Fix the width later-->
+    <div class="card offset-sm-1" style="width: 84%; height:100vh; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
+        <div style="height:60vh; width:100%; background-color:rgb(44, 180, 96)"> 
+            <img src="/static/{{information[current_question-1][0]}}.PNG" class="card-img-top"><br>
+            <form action="/user_answer", method="post">
+                <input type="radio" name="answer" value="a">A
+                <input type="radio" name="answer" value="b">B
+                <input type="radio" name="answer" value="c">C
+                <input type="radio" name="answer" value="d">D
+                <input type="radio" name="answer" value="e">E
+                <input type="submit" value="Next question">
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}
