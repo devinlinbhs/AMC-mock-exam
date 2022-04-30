@@ -1,16 +1,41 @@
 {% extends 'base.html' %}
+<!--Extend base template-->
+
 {% block body %}
-<!--Fix the width later-->
+<!--Question page contents-->
+
+
+<!--Work on the specific width later-->
     <div class="card offset-sm-1" style="width: 84%; height:100vh; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
+    <!--Creating a box
+        Height:full screen
+        Width: 84% of the length
+        The next thing inside the box will be in the center of this box-->
+
         <div style="height:60vh; width:100%; background-color:rgb(44, 180, 96)"> 
-            <img src="/static/{{information[current_question-1][0]}}.PNG" class="card-img-top"><br>
+            <!--Creating another smaller box
+                I plan to put question image and muti-choice buttons in it
+                This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
+            
+                <img src="/static/{{information[current_question-1][0]}}.PNG" class="card-img-top"><br>
+                <!--The link of the image is actually grabbed from the picture_file names in the database, which was passed from python
+                The class is from bootstrap ensuring the image stay on top and full width in size-->
+
             <form action="/user_answer", method="post">
+            <!--action means do that route, method "post" means update information I think-->
+
+<!-- These "input" will be change into buttons for better styling in future-->
                 <input type="radio" name="answer" value="a">A
                 <input type="radio" name="answer" value="b">B
                 <input type="radio" name="answer" value="c">C
                 <input type="radio" name="answer" value="d">D
                 <input type="radio" name="answer" value="e">E
+            <!--type radio is for muti-choice, choosing one in a whole group
+                "name" will be how we are going to recall the variable in python
+                "value" will be the value of the variable "answer"-->
+
                 <input type="submit" value="Next question">
+                <!--Hit summit, the user's choice will be passed-->
             </form>
 
 
