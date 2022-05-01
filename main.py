@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request
+from flask import Flask, render_template, g, request, redirect
 import sqlite3
 
 #Basic set up
@@ -22,14 +22,19 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+        
+        
+current_question = 0
+#Create a global variable that counts which question the user is currently on
+
 
 #Create a homepage (tempoaray right now)
 @app.route("/")
 def home():
+    global current_question
+    current_question = 1
     return render_template("home.html", active='home')
 
-#Create a global variable that counts which question the user is currently on
-current_question = 0
 
 #Question page
 #For the users to answer muti-choice questions(Will be used for Radom Quizes and Past Exam Practices at some point)
@@ -44,8 +49,7 @@ def question():
     #Get all the picture files in a tuple
     ### Need a better way to get the name of the picture files when there is much more data in the database
         
-    global current_question
-    current_question = 1
+    
     #Bring the global variable to local and set it to the first question
     
     return render_template("question.html", information=information, active='question', current_question = current_question)
@@ -79,8 +83,14 @@ def user_answer():
     # Execute then save it
     
     current_question = current_question + 1
-    return render_template("question.html", information=information, active='question', current_question = current_question)
+    return redirect("question")
     # Move on to next question in question.html, pass down the same file name, active website question.html
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
