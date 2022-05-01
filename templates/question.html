@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 <!--Extend base template-->
 
+
+{% block title %}
+<title>Question</title>
+{% endblock %}
+
+
 {% block body %}
 <!--Question page contents-->
-
 
 <!--Work on the specific width later-->
     <div class="card offset-sm-1" style="width: 84%; height:100vh; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
@@ -39,6 +44,9 @@
             </form>
 
 
+            <form action="/check_answer">
+                <input type="submit" value="End exam">
+            </form>
         </div>
     </div>
 
