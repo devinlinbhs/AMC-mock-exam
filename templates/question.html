@@ -10,14 +10,17 @@
 {% block body %}
 <!--Question page contents-->
 
+    <div style="height: 100px;">
+    </div>
 <!--Work on the specific width later-->
-    <div class="card offset-sm-1" style="width: 84%; height:100vh; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
+    <div class="card offset-sm-1" style="width: 84%; height:auto; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
     <!--Creating a box
         Height:full screen
         Width: 84% of the length
         The next thing inside the box will be in the center of this box-->
-
-        <div style="height:60vh; width:100%; background-color:rgb(44, 180, 96)"> 
+        {% for i in range(30) %}
+        {% set current_question = i + 1 %}
+        <div style="height:auto; margin-bottom: 20vh; width:100%; background-color:rgb(44, 180, 96)"> 
             <!--Creating another smaller box
                 I plan to put question image and muti-choice buttons in it
                 This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
@@ -26,10 +29,11 @@
                 <!--The link of the image is actually grabbed from the picture_file names in the database, which was passed from python
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
 
-            <form action="/user_answer", method="post">
+            <form action="/upload_user_answer", method="post">
             <!--action means do that route, method "post" means update information I think-->
 
 <!-- These "input" will be change into buttons for better styling in future-->
+                <input type="hidden" name="group_id" value="{{current_question}}">
                 <input type="radio" name="answer" value="a">A
                 <input type="radio" name="answer" value="b">B
                 <input type="radio" name="answer" value="c">C
@@ -42,12 +46,17 @@
                 <input type="submit" value="Next question">
                 <!--Hit summit, the user's choice will be passed-->
             </form>
+            
 
 
-            <form action="/check_answer">
-                <input type="submit" value="End exam">
-            </form>
+            
+            
+
         </div>
+        {% endfor %}
+        <form action="/check_answer">
+            <input type="submit" value="End exam">
+        </form>
     </div>
 
 {% endblock %}
