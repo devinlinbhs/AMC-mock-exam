@@ -27,22 +27,11 @@ def close_connection(exception):
         db.close()
 
 
-# Create a global variable that counts which question the user is currently on
 
 
 # Create a homepage (tempoaray right now)
 @app.route("/")
 def home():
-    # Reset the question number to 0 so users can start from the begining next time
-    # Eliminated bugs that started from E.g. Q23
-
-    cursor = get_db().cursor()
-    query = "UPDATE question SET user_choice = ?"
-    # Clear the previous answers for the exam
-    # Eliminated bugs that you get what you scored last time if you end the exam from Q1
-
-    cursor.execute(query, ('',))
-    get_db().commit()
 
     return render_template("home.html", active='home')
 
@@ -51,6 +40,7 @@ def home():
 # For the users to answer muti-choice questions(Will be used for Radom Quizes and Past Exam Practices at some point)
 @app.route("/question")
 def question():
+    
     cursor = get_db().cursor()
     query = "SELECT picture_file FROM question"
     # Create a cursor to deliver query in the database
@@ -69,31 +59,36 @@ def question():
 # Upload the answer for each question that the users submitted
 @app.route("/upload_user_answer", methods=['GET', 'POST'])
 def upload_user_answer():
+
     cursor = get_db().cursor()
     query = "SELECT picture_file FROM question"
 
     cursor.execute(query)
     information = cursor.fetchall()
     
-
-    try:
-        answer = request.form["answer"]
-        current_question = request.form["group_id"]
-        current_question = int(current_question)
-    except:
-        answer = None
-    # Now bring the value of the "answer" from the question.html, the user's answer to the question to the python file
-
-    
-    cursor = get_db().cursor()
     query = "UPDATE question SET user_choice = ? WHERE picture_file = ?"
     # Update the user's answer query
-
-    cursor.execute(query, (answer, information[current_question-1][0]))
+    
+    for i in range (30):
+        current_question = i+1
+        #create a counting variable
+        
+        try:
+            answer = request.form["answer"+ str(current_question)]
+# Now bring the value of the "answer1" or "answer2" etc from the question.html, the user's choice for the question to the python file
+            
+        except:
+            answer = '' 
+            # If there is no answer then there will be error, thus do this route 
+            
+        cursor.execute(query, (answer, information[current_question-1][0]))
+        # Update the data into the database
+        
     get_db().commit()
     # Execute then save it
-
-    return redirect("question")
+    
+    
+    return redirect("check_answer")
     # Move on to next question in question.html, pass down the same file name, active website question.html
 
 

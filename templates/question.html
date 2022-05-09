@@ -12,14 +12,18 @@
 
     <div style="height: 100px;">
     </div>
+
 <!--Work on the specific width later-->
     <div class="card offset-sm-1" style="width: 84%; height:auto; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
     <!--Creating a box
         Height:full screen
         Width: 84% of the length
         The next thing inside the box will be in the center of this box-->
+
         {% for i in range(30) %}
         {% set current_question = i + 1 %}
+        <!--Print the questions 30 times and count the current question-->
+
         <div style="height:auto; margin-bottom: 20vh; width:100%; background-color:rgb(44, 180, 96)"> 
             <!--Creating another smaller box
                 I plan to put question image and muti-choice buttons in it
@@ -28,35 +32,39 @@
                 <img src="/static/{{information[current_question-1][0]}}.PNG" class="card-img-top"><br>
                 <!--The link of the image is actually grabbed from the picture_file names in the database, which was passed from python
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
-
-            <form action="/upload_user_answer", method="post">
+            
+                <form action="/upload_user_answer", method="post">
             <!--action means do that route, method "post" means update information I think-->
 
+
+
 <!-- These "input" will be change into buttons for better styling in future-->
-                <input type="hidden" name="group_id" value="{{current_question}}">
-                <input type="radio" name="answer" value="a">A
-                <input type="radio" name="answer" value="b">B
-                <input type="radio" name="answer" value="c">C
-                <input type="radio" name="answer" value="d">D
-                <input type="radio" name="answer" value="e">E
-            <!--type radio is for muti-choice, choosing one in a whole group
-                "name" will be how we are going to recall the variable in python
-                "value" will be the value of the variable "answer"-->
+                    {% if current_question <= 25 %}
+                    
+                    <input type="radio" name="answer{{current_question}}" value="a">A
+                    <input type="radio" name="answer{{current_question}}" value="b">B
+                    <input type="radio" name="answer{{current_question}}" value="c">C
+                    <input type="radio" name="answer{{current_question}}" value="d">D
+                    <input type="radio" name="answer{{current_question}}" value="e">E
+                    <!--type radio is for muti-choice, choosing one in a whole group
+                    "name" will be how we are going to recall the variable in python
+                    "value" will be the value of the variable "answer"
+                    Note that the name changes with the for loop-->
 
-                <input type="submit" value="Next question">
-                <!--Hit summit, the user's choice will be passed-->
-            </form>
-            
+                    {% else %}
+                    <label>Answer:</label>
+                    <input type="text" name="answer{{current_question}}">
+                    <!--type text is for entering answer, the value passed is the user's input when we click 'submit'-->
 
-
-            
-            
-
+                    {% endif %}
         </div>
         {% endfor %}
-        <form action="/check_answer">
-            <input type="submit" value="End exam">
-        </form>
+
+
+                    <input type="submit" value="End exam">
+                    <!--Hit summit, the user's choice will be passed-->
+                </form>
+
     </div>
 
 {% endblock %}
