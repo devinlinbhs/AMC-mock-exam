@@ -10,9 +10,6 @@
 {% block body %}
 <!--Question page contents-->
 
-    <div style="height: 100px;">
-    </div>
-
 <!--Work on the specific width later-->
     <div class="card offset-sm-1" style="width: 84%; height:auto; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
     <!--Creating a box
@@ -28,19 +25,19 @@
             <!--Creating another smaller box
                 I plan to put question image and muti-choice buttons in it
                 This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
-            
-                <img src="/static/{{information[current_question-1][0]}}.PNG" class="card-img-top"><br>
-                <!--The link of the image is actually grabbed from the picture_file names in the database, which was passed from python
+
+                <img src="/static/{{file_location}}/{{information[current_question-1][0]}}.jpg" class="card-img-top"><br>
+                <!--The link of the image is actually grabbed from the "picture_file" column in the database, which was passed from python
+                The "file_location" is passed from python as well by user's filter
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
             
                 <form action="/upload_user_answer", method="post">
             <!--action means do that route, method "post" means update information I think-->
 
 
-
 <!-- These "input" will be change into buttons for better styling in future-->
                     {% if current_question <= 25 %}
-                    
+
                     <input type="radio" name="answer{{current_question}}" value="a">A
                     <input type="radio" name="answer{{current_question}}" value="b">B
                     <input type="radio" name="answer{{current_question}}" value="c">C
@@ -62,7 +59,7 @@
 
 
                     <input type="submit" value="End exam">
-                    <!--Hit summit, the user's choice will be passed-->
+                    <!--Hit submit, the user's choice will be passed to the route /update_user_answer-->
                 </form>
 
     </div>
