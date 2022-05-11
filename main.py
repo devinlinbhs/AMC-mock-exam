@@ -38,20 +38,30 @@ def setting_exam():
     return render_template("setting_exam.html")
 
 
+year = None
+foreign_id = None
+# Creating two global variables that will be used and passed from functions to functions
+
+
 # Question page
 # For the users to answer muti-choice questions(Will be used for Radom Quizes and Past Exam Practices at some point)
 @app.route("/question", methods = ["GET","POST"])
 def question():
-    year = request.form["year"] # Problem is here
+    global year, foreign_id
+    year = request.form["year"]
     difficulty = request.form["difficulty"]
+    # Get the values from the drop down menu
+    
     if difficulty == "senior":
         foreign_id = "3"
     elif difficulty == "intermediate":
         foreign_id = "2"
     else:
         foreign_id = "1"
+    # The corresponding foreignkey value in the database
+    
     file_location = year+'_'+difficulty
-    print(file_location)
+    # Create a string which is exactly the file location
 
     cursor = get_db().cursor()
     query = "SELECT picture_file FROM question WHERE year = ? AND difficulty = ?"
@@ -59,11 +69,10 @@ def question():
 
     cursor.execute(query,(year,foreign_id))
     information = cursor.fetchall()
-    print(information)
     # Get all the picture files in a tuple
     # Need a better way to get the name of the picture files when there is much more data in the database
     
-
+    
     return render_template("question.html", information=information, active='setting_exam', file_location = file_location)
     # Lead to question.html, pass the picture_files to the website with the current question, and the current active website
 
@@ -72,12 +81,14 @@ def question():
 @app.route("/upload_user_answer", methods=['GET', 'POST'])
 def upload_user_answer():
 
+    global year, foreign_id
     cursor = get_db().cursor()
-    query = "SELECT picture_file FROM question"
-
-    cursor.execute(query)
+    query = "SELECT picture_file FROM question WHERE year = ? AND difficulty = ?"
+    
+    cursor.execute(query,(year, foreign_id))
     information = cursor.fetchall()
-
+    
+    
     query = "UPDATE question SET user_choice = ? WHERE picture_file = ?"
     # Update the user's answer query
 
@@ -106,9 +117,10 @@ def upload_user_answer():
 @app.route("/check_answer")
 def check_answer():
     cursor = get_db().cursor()
-    query = "SELECT answer, user_choice FROM question"
+    query = "SELECT answer, user_choice FROM question WHERE year = ? AND difficulty = ?"
 
-    cursor.execute(query)
+    global year, foreign_id
+    cursor.execute(query,(year, foreign_id))
     marking_scheme = cursor.fetchall()
     # To get the user's answers VS the model answers in the database
 
