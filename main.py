@@ -105,20 +105,12 @@ def upload_user_answer():
 
         cursor.execute(query, (answer, information[current_question-1][0]))
         # Update the data into the database
-
     get_db().commit()
-    # Execute then save it
 
-    return redirect("check_answer")
-    # Move on to next question in question.html, pass down the same file name, active website question.html
-
-
-@app.route("/check_answer")
-def check_answer():
     cursor = get_db().cursor()
     query = "SELECT answer, user_choice FROM question WHERE year = ? AND difficulty = ?"
 
-    global year, foreign_id
+
     cursor.execute(query,(year, foreign_id))
     marking_scheme = cursor.fetchall()
     # To get the user's answers VS the model answers in the database
