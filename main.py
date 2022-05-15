@@ -29,7 +29,6 @@ def close_connection(exception):
 # Create a homepage (tempoaray right now)
 @app.route("/")
 def home():
-
     return render_template("home.html", active='home')
 
 
