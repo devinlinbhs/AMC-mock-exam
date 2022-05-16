@@ -10,6 +10,14 @@
 {% block body %}
 <!--Question page contents-->
 
+    <div class="question_sidenav">
+        {% for i in range(30) %}
+        {% set current_question = i + 1 %}
+        <a href="#q{{current_question}}">Question {{current_question}}</a>
+        {% endfor %}
+    </div>
+
+
 <!--Work on the specific width later-->
     <div class="card offset-sm-1" style="width: 84%; height:auto; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
     <!--Creating a box
@@ -21,12 +29,13 @@
         {% set current_question = i + 1 %}
         <!--Print the questions 30 times and count the current question-->
 
-        <div style="height:auto; margin-bottom: 20vh; width:100%; background-color:rgb(44, 180, 96)"> 
+        <div style="height:auto; margin-bottom: 20vh; width:100%; background-color:rgb(44, 180, 96); text-align:center;"> 
             <!--Creating another smaller box
                 I plan to put question image and muti-choice buttons in it
                 This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
                 
-                <img src="/static/{{file_location}}/{{information[current_question-1][0]}}.jpg" class="card-img-top"><br>
+                <img src="/static/{{file_location}}/{{information[current_question-1][0]}}.jpg" class="card-img-top" 
+                id="q{{current_question}}" style="position: relative; padding-top: 100px;"> <br>
                 <!--The link of the image is actually grabbed from the "picture_file" column in the database, which was passed from python
                 The "file_location" is passed from python as well by user's filter
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
@@ -37,25 +46,59 @@
 
 <!-- These "input" will be change into buttons for better styling in future-->
                     {% if current_question <= 25 %}
-
-                    <input type="radio" name="answer{{current_question}}" value="a">A
-                    <input type="radio" name="answer{{current_question}}" value="b">B
-                    <input type="radio" name="answer{{current_question}}" value="c">C
-                    <input type="radio" name="answer{{current_question}}" value="d">D
-                    <input type="radio" name="answer{{current_question}}" value="e">E
+                    
+                    <br><br>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-light" style="width:100px; height:60px;">
+                            <input type="radio" id="answer{{current_question}}" name="answer{{current_question}}" value="a"> <h1>A</h1>
+                        </label>
+                        <div style="width: 20vh"></div>
+                        <label class="btn btn-light" style="width:100px; height:60px;">
+                            <input type="radio" id="answer{{current_question}}" name="answer{{current_question}}" value="b"> <h1>B</h1>
+                        </label>
+                        <div style="width: 20vh"></div>
+                        <label class="btn btn-light" style="width:100px; height:60px;">
+                            <input type="radio" id="answer{{current_question}}" name="answer{{current_question}}" value="c"> <h1>C</h1>
+                        </label>
+                        <div style="width: 20vh"></div>
+                        <label class="btn btn-light" style="width:100px; height:60px;">
+                            <input type="radio" id="answer{{current_question}}" name="answer{{current_question}}" value="d"> <h1>D</h1>
+                        </label>
+                        <div style="width: 20vh"></div>
+                        <label class="btn btn-light" style="width:100px; height:60px;">
+                            <input type="radio" id="answer{{current_question}}" name="answer{{current_question}}" value="e"> <h1>E</h1>
+                        </label>
+                    </div>
                     <!--type radio is for muti-choice, choosing one in a whole group
                     "name" will be how we are going to recall the variable in python
                     "value" will be the value of the variable "answer"
                     Note that the name changes with the for loop-->
 
                     {% else %}
-                    <label>Answer:</label>
-                    <input type="text" name="answer{{current_question}}">
+                    <br><br>
+                    <label><h2>Answer:</h2></label>
+                    <input type="text" name="answer{{current_question}}" class="btn btn-light btn-lg" autocomplete="off">
+                    
                     <!--type text is for entering answer, the value passed is the user's input when we click 'submit'-->
 
                     {% endif %}
         </div>
         {% endfor %}
+
+                    <script type="text/javascript">
+                        
+
+                        const onClick = function() {
+                            console.log(this.id, this.innerHTML);
+                            document.getElementById('answer1').onclick = onClick;
+                            document.getElementById('answer2').onclick = onClick;
+                            document.getElementById('answer3').onclick = onClick;
+                            console.log(onClick)
+                        }
+
+                        
+                    </script>
+
 
 
                     <input type="submit" value="End exam">
@@ -63,5 +106,4 @@
                 </form>
 
     </div>
-
 {% endblock %}

@@ -10,5 +10,38 @@
 
 {% block body %}
 <!--Home contents-->
-    
+    <div class="container" style="width: 84%; height:auto; background-color:lightblue; align-items: center; justify-content: center"> 
+        <h1 style="text-align: center;">Click Images to Start</h1>
+        <div class="row d-flex justify-content-around">
+            <div class="col-sm-5 col-md-5 col-lg-5" style="padding-bottom: 30px; text-align:left;">
+                <img src="/static/home/function_1.jpg" class="card-img-top" style="position: relative;">
+                <p>Random quizzes selected from each papers</p>
+                <p>Solve the random set of questions with the shortest time and highest accuratecy<br>
+                Available difficulties: Junior, Intermediate, Senior<br>
+                Available question sets: Q1~10, Q11~20, Q21~25
+                </p>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5" style="padding-bottom: 30px;">
+                <a href="{{url_for('setting_exam')}}">
+                    <img src="/static/home/function_2.jpg" class="card-img-top" style="position: relative;">
+                </a>
+                <p>FULL past papers in exam condition</p>
+                <p>
+                Past papers difficulties involving: Junior, Intermediate, Senior<br>
+                Past papers years from: 2016 ~ 2020
+                </p>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-around">
+            <div class="col-sm-5 col-md-5 col-lg-5" style="padding-bottom: 30px;">
+                <img src="/static/home/function_3.jpg" class="card-img-top" style="position: relative;">
+                <p></p>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5" style="padding-bottom: 30px;">
+                <img src="/static/home/function_4.jpg" class="card-img-top" style="position: relative;">
+                <p></p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
