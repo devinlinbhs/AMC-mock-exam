@@ -29,7 +29,6 @@
             <li class="nav-item">
                 <a class='nav-link active' href="{{url_for('home')}}">Home</a>
             </li>
-
             {% else %}
             <li class="nav-item">
                 <a class='nav-link' href="{{url_for('home')}}">Home</a>
@@ -40,14 +39,24 @@
             {% if active == 'setting_exam' %}
             <!--Check current active website-->
             <li class="nav-item">
-                <a class='nav-link active' href="{{url_for('setting_exam')}}">Start Exam</a>
+                <a class='nav-link active' href="{{url_for('setting_exam')}}">Past Exam</a>
             </li>
-
             {% else %}
             <li class="nav-item">
-                <a class='nav-link' href="{{url_for('setting_exam')}}">Start Exam</a>
+                <a class='nav-link' href="{{url_for('setting_exam')}}">Past Exam</a>
             </li>
+            {% endif %}
 
+
+            {% if active == 'setting_quiz' %}
+            <!--Check current active website-->
+            <li class="nav-item">
+                <a class='nav-link active' href="{{url_for('setting_quiz')}}">Random Quiz</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class='nav-link' href="{{url_for('setting_quiz')}}">Random Quiz</a>
+            </li>
             {% endif %}
         </ul>
     </nav>

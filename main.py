@@ -1,5 +1,6 @@
 from flask import Flask, render_template, g, request, redirect
 import sqlite3
+import random
 
 # Basic set up
 
@@ -26,7 +27,7 @@ def close_connection(exception):
         db.close()
 
 
-# Create a homepage (tempoaray right now)
+
 @app.route("/")
 def home():
     return render_template("home.html", active='home')
@@ -40,6 +41,11 @@ def setting_exam():
 year = None
 foreign_id = None
 # Creating two global variables that will be used and passed from functions to functions
+
+marking_scheme = None
+question_set = None
+year_set = None
+run = None
 
 
 # Question page
@@ -69,7 +75,6 @@ def question():
     cursor.execute(query,(year,foreign_id))
     information = cursor.fetchall()
     # Get all the picture files in a tuple
-    # Need a better way to get the name of the picture files when there is much more data in the database
     
     
     return render_template("question.html", information=information, active='setting_exam', file_location = file_location)
@@ -79,7 +84,7 @@ def question():
 # Upload the answer for each question that the users submitted
 @app.route("/upload_user_answer", methods=['GET', 'POST'])
 def upload_user_answer():
-
+    
     global year, foreign_id
     cursor = get_db().cursor()
     query = "SELECT picture_file FROM question WHERE year = ? AND difficulty = ?"
@@ -143,6 +148,108 @@ def upload_user_answer():
         # Q26 : 6 points; Q27 : 7 points; Q28 : 8 points; Q29 : 9 points; Q30 : 10 points,
 
     return render_template("score.html", score=score)
+
+
+
+
+
+
+
+
+@app.route("/setting_quiz")
+def setting_quiz():
+    return render_template("setting_quiz.html")
+
+
+@app.route("/quiz", methods = ["GET","POST"])
+def quiz():
+    global marking_scheme, year_set, foreign_id, question_set, run
+    set = request.form["set"]
+    difficulty = request.form["difficulty"]
+
+    file_location_set = []
+    
+    marking_scheme = []
+    year_set = []
+    question_set = []
+    
+    if difficulty == "senior":
+        foreign_id = "3"
+    elif difficulty == "intermediate":
+        foreign_id = "2"
+    else:
+        foreign_id = "1"
+    
+    
+    cursor = get_db().cursor()
+    query = "SELECT picture_file, answer FROM question WHERE year = ? AND difficulty = ? AND question_number = ?"
+    
+        
+    
+    if set == "set1":
+        constant = 1
+        run = 10
+        # Constant will be add to the {i} to get the question number we supposed to be on
+        # {run} determine how many times we run the for loop
+        
+    elif set == "set2":
+        constant = 11
+        run = 10
+        
+    else:
+        constant = 21
+        run = 5
+        
+    for i in range (run):
+        question_number = i + constant
+        year = random.randint(2016, 2020)
+        year_set.append(year)
+        
+        cursor.execute(query,(year,foreign_id, question_number))
+        random_question = cursor.fetchall()
+
+        question_set.append(random_question[0][0])
+        marking_scheme.append(random_question[0][1])
+        
+        file_location = str(year)+'_'+difficulty
+        file_location_set.append(file_location)
+
+    return render_template("quiz.html", question_set = question_set, file_location_set = file_location_set,
+                            run = run, constant = constant, active = "setting_quiz")
+
+
+@app.route("/upload_user_answer_quiz", methods=['GET', 'POST'])
+def upload_user_answer_quiz():
+    
+    global year_set, marking_scheme, question_set, run
+    print(run)
+    answer_set = []
+    for i in range(run):
+        current_question = i+1
+        # create a counting variable
+
+        try:
+            answer_set.append(request.form["answer" + str(current_question)])
+# Now bring the value of the "answer1" or "answer2" etc from the question.html, the user's choice for the question to the python file
+
+        except:
+            answer_set.append('')
+            # If there is no answer then there will be error, thus do this route
+
+    score = 0
+    # Create a new variable
+    if run == 5:
+        type = "quiz_5"
+    else:
+        type = "quiz_10"
+    
+    for count in range(run):
+        if marking_scheme[count] == answer_set[count]:
+            score += 1
+
+    return render_template("score.html", score=score, type = type)
+
+
 
 
 if __name__ == "__main__":
