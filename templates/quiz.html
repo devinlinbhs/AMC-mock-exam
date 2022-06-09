@@ -16,7 +16,7 @@
 
 
     <!--Work on the specific width later-->
-    <div class="card offset-sm-1" style="width: 84%; height:auto; background-color:lightblue; display: flex; align-items: center; justify-content: center"> 
+    <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center"> 
     <!--Creating a box
         Height:full screen
         Width: 84% of the length
@@ -26,7 +26,7 @@
         {% set current_question = i + 1 %}
         <!--Print the questions 10 or 5 times and count the current question-->
 
-        <div style="height:auto; margin-bottom: 20vh; width:100%; background-color:rgb(44, 180, 96); text-align:center;"> 
+        <div style="height:auto; margin-bottom: 20vh; width:100%; text-align:center;"> 
             <!--Creating another smaller box
                 I plan to put question image and muti-choice buttons in it
                 This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
@@ -42,25 +42,25 @@
 
 
                 <br><br>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-light" style="width:100px; height:60px;">
-                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="a"> <h1>A</h1>
+                <div class="btn_layout">
+                    <label class="btn_style">
+                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="a">A
                     </label>
-                    <div style="width: 20vh"></div>
-                    <label class="btn btn-light" style="width:100px; height:60px;">
-                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="b"> <h1>B</h1>
+                    
+                    <label class="btn_style">
+                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="b">B
                     </label>
-                    <div style="width: 20vh"></div>
-                    <label class="btn btn-light" style="width:100px; height:60px;">
-                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="c"> <h1>C</h1>
+                    
+                    <label class="btn_style">
+                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="c">C
                     </label>
-                    <div style="width: 20vh"></div>
-                    <label class="btn btn-light" style="width:100px; height:60px;">
-                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="d"> <h1>D</h1>
+                    
+                    <label class="btn_style">
+                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="d">D
                     </label>
-                    <div style="width: 20vh"></div>
-                    <label class="btn btn-light" style="width:100px; height:60px;">
-                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="e"> <h1>E</h1>
+                    
+                    <label class="btn_style">
+                        <input type="radio" id="answer{{actual_question}}" name="answer{{actual_question}}" value="e">E
                     </label>
                 </div>
                 <!--type radio is for muti-choice, choosing one in a whole group
@@ -76,6 +76,4 @@
                     <!--Hit submit, the user's choice will be passed to the route /update_user_answer-->
                 </form>
     </div>
-
-
-{% endblock %}
+    {% endblock %}

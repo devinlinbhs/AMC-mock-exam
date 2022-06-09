@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, redirect
+from flask import Flask, render_template, g, request, redirect, session
 import sqlite3
 import random
 
@@ -38,41 +38,38 @@ def setting_exam():
     return render_template("setting_exam.html")
 
 
-year = None
-foreign_id = None
-# Creating two global variables that will be used and passed from functions to functions
+app.secret_key = "asdfghjkl"
 
-marking_scheme = None
-question_set = None
-year_set = None
-run = None
+
+
+
 
 
 # Question page
 # For the users to answer muti-choice questions(Will be used for Radom Quizes and Past Exam Practices at some point)
 @app.route("/question", methods = ["GET","POST"])
 def question():
-    global year, foreign_id
-    year = request.form["year"]
+    
+    session['year'] = request.form['year']
     difficulty = request.form["difficulty"]
     # Get the values from the drop down menu
     
     if difficulty == "senior":
-        foreign_id = "3"
+        session['foreign_id'] = "3"
     elif difficulty == "intermediate":
-        foreign_id = "2"
+        session['foreign_id'] = "2"
     else:
-        foreign_id = "1"
+        session['foreign_id'] = "1"
     # The corresponding foreignkey value in the database
     
-    file_location = year+'_'+difficulty
+    file_location = session['year']+'_'+difficulty
     # Create a string which is exactly the file location
 
     cursor = get_db().cursor()
     query = "SELECT picture_file FROM question WHERE year = ? AND difficulty = ?"
     # Create a cursor to deliver query in the database
 
-    cursor.execute(query,(year,foreign_id))
+    cursor.execute(query,(session['year'],session['foreign_id']))
     information = cursor.fetchall()
     # Get all the picture files in a tuple
     
@@ -85,11 +82,10 @@ def question():
 @app.route("/upload_user_answer", methods=['GET', 'POST'])
 def upload_user_answer():
     
-    global year, foreign_id
     cursor = get_db().cursor()
     query = "SELECT picture_file FROM question WHERE year = ? AND difficulty = ?"
     
-    cursor.execute(query,(year, foreign_id))
+    cursor.execute(query,(session['year'], session['foreign_id']))
     information = cursor.fetchall()
     
     
@@ -116,8 +112,8 @@ def upload_user_answer():
     query = "SELECT answer, user_choice FROM question WHERE year = ? AND difficulty = ?"
 
 
-    cursor.execute(query,(year, foreign_id))
-    marking_scheme = cursor.fetchall()
+    cursor.execute(query,(session['year'], session['foreign_id']))
+    session['marking_scheme'] = cursor.fetchall()
     # To get the user's answers VS the model answers in the database
 
     score = 0
@@ -128,22 +124,22 @@ def upload_user_answer():
         # The real question number is always 'count' + 1
 
         if 1 <= question_number <= 10:
-            if marking_scheme[count][0] == marking_scheme[count][1]:
+            if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
                 score += 3
         # Question 1 ~ 10 worth 3 points each
 
         elif 11 <= question_number <= 20:
-            if marking_scheme[count][0] == marking_scheme[count][1]:
+            if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
                 score += 4
         # Question 11 ~ 20 worth 4 points each
 
         elif 21 <= question_number <= 25:
-            if marking_scheme[count][0] == marking_scheme[count][1]:
+            if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
                 score += 5
         # Qquestion 21 ~ 25 worth 4 points each
 
         else:
-            if marking_scheme[count][0] == marking_scheme[count][1]:
+            if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
                 score += question_number - 20
         # Q26 : 6 points; Q27 : 7 points; Q28 : 8 points; Q29 : 9 points; Q30 : 10 points,
 
@@ -163,22 +159,22 @@ def setting_quiz():
 
 @app.route("/quiz", methods = ["GET","POST"])
 def quiz():
-    global marking_scheme, year_set, foreign_id, question_set, run
+    
     set = request.form["set"]
     difficulty = request.form["difficulty"]
 
     file_location_set = []
     
-    marking_scheme = []
-    year_set = []
-    question_set = []
+    session['marking_scheme'] = []
+    session['year_set'] = []
+    session['question_set'] = []
     
     if difficulty == "senior":
-        foreign_id = "3"
+        session['foreign_id'] = "3"
     elif difficulty == "intermediate":
-        foreign_id = "2"
+        session['foreign_id'] = "2"
     else:
-        foreign_id = "1"
+        session['foreign_id'] = "1"
     
     
     cursor = get_db().cursor()
@@ -188,43 +184,41 @@ def quiz():
     
     if set == "set1":
         constant = 1
-        run = 10
+        session['run'] = 10
         # Constant will be add to the {i} to get the question number we supposed to be on
-        # {run} determine how many times we run the for loop
+        # session['year_set'] determine how many times we run the for loop
         
     elif set == "set2":
         constant = 11
-        run = 10
+        session['run'] = 10
         
     else:
         constant = 21
-        run = 5
+        session['run'] = 5
         
-    for i in range (run):
+    for i in range (session['run']):
         question_number = i + constant
         year = random.randint(2016, 2020)
-        year_set.append(year)
+        session['year_set'].append(year)
         
-        cursor.execute(query,(year,foreign_id, question_number))
+        cursor.execute(query,(year,session['foreign_id'], question_number))
         random_question = cursor.fetchall()
 
-        question_set.append(random_question[0][0])
-        marking_scheme.append(random_question[0][1])
+        session['question_set'].append(random_question[0][0])
+        session['marking_scheme'].append(random_question[0][1])
         
         file_location = str(year)+'_'+difficulty
         file_location_set.append(file_location)
 
-    return render_template("quiz.html", question_set = question_set, file_location_set = file_location_set,
-                            run = run, constant = constant, active = "setting_quiz")
+    return render_template("quiz.html", question_set = session['question_set'], file_location_set = file_location_set,
+                            run = session['run'], constant = constant, active = "setting_quiz")
 
 
 @app.route("/upload_user_answer_quiz", methods=['GET', 'POST'])
 def upload_user_answer_quiz():
     
-    global year_set, marking_scheme, question_set, run
-    print(run)
     answer_set = []
-    for i in range(run):
+    for i in range(session['run']):
         current_question = i+1
         # create a counting variable
 
@@ -238,13 +232,13 @@ def upload_user_answer_quiz():
 
     score = 0
     # Create a new variable
-    if run == 5:
+    if session['run'] == 5:
         type = "quiz_5"
     else:
         type = "quiz_10"
     
-    for count in range(run):
-        if marking_scheme[count] == answer_set[count]:
+    for count in range(session['run']):
+        if session['marking_scheme'][count] == answer_set[count]:
             score += 1
 
     return render_template("score.html", score=score, type = type)
