@@ -18,6 +18,34 @@
 
 
 <body>
+    <style>
+        body {
+            position:relative;
+        }
+    
+        body::before{
+            content: "";
+            background-image: url(/static/home/lockscreen2.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    
+            position: absolute;
+            height:auto;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            opacity: 0.6;
+        }
+/*body:: before creates a background image on the back which is not going to affect what is in the body
+The main reason to do it, is to seperate the body and the body-background, so changing the opacity of 
+the image will not affect the actual contents
+
+Using position absolute need to set its position, then use position relative to let the contents in 
+body come on top the background
+*/
+    </style>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light justify-content-end">
         <!--nav bar, backgroung light-->
 
@@ -60,11 +88,10 @@
             {% endif %}
         </ul>
     </nav>
-    <div style="height: 100px;">
-    </div>
+    
 
 
-    {% block body %}
+    {% block content %}
     {% endblock %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

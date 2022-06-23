@@ -9,24 +9,27 @@
 
 
 .question_sidenav a {
+    padding-left: 5.9%;
     display: block;
-    color: #e69138;
+    color: white;
     text-decoration: none;
     font-weight: bold;
-    margin-bottom: 3%;
+    padding-bottom: 3%;
 }
 
 
 .question_sidenav a:hover {
-    color: #f1f1f1;
-    background-color: #e69138;
+    color: #007bff;
 }
 
 
 .question_sidenav a:active {
-    background-color: #04AA6D;
-    color: white;
+    background-color: #007bff;
+    color: #f1f1f1;
 }
+
+
+
 
 /* CSS */
 
@@ -68,23 +71,37 @@
     font-size: 40px;
 }
 
-
-
-
-
-input[type=radio]:checked + label{
-    background-color: #198754;
-    color: #fff;
+/* minimize browswer radio button i.e. make it gone */
+.btn_layout input {
+    height: 0px;
+    width: 0px;
 }
 
 
+/* This changes the checked color of the label */
+.btn_layout input[type="radio"]:checked+label {
+    background-color: #007bff;
+    box-shadow: #3d73de 3px 3px 7px;
+    color:#f1f1f1;
+}
+/*So you click at the button (label), label for allows the radio button to be selected, 
+then the selected radio button will make the label change color*/
+
+/* 
+Green color:#1fd83b
+
+Blue color: #3855e6
+*/
+
+
 .btn_style:hover {
-    box-shadow: rgba(0, 255, 8, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    box-shadow: rgba(4, 80, 244, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
     transform: translateY(-10px);
 }
 
 .btn_style:active {
-    background-color: #11c92c;
-    box-shadow: #d6e7d8 0 3px 7px inset;
+    background-color: #2e6be3;
+    box-shadow: #a6a9a6 3px 3px 7px;
+    color:#f1f1f1;
     transform: translateY(2px);
 }

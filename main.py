@@ -133,15 +133,11 @@ def upload_user_answer():
                 score += 4
         # Question 11 ~ 20 worth 4 points each
 
-        elif 21 <= question_number <= 25:
-            if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
-                score += 5
-        # Qquestion 21 ~ 25 worth 4 points each
-
         else:
             if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
-                score += question_number - 20
-        # Q26 : 6 points; Q27 : 7 points; Q28 : 8 points; Q29 : 9 points; Q30 : 10 points,
+                score += 5
+        # Qquestion 21 ~ 25 worth 5 points each
+
 
     return render_template("score.html", score=score)
 

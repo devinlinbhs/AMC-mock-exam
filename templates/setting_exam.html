@@ -6,35 +6,49 @@
 
 
 
-{% block body %}
-<form action="/question", method="post">
-<!--I want the Year and Difficulty to be passed onto the question.html
-    Therefore I used the action to pass the variables to route /question in python first-->
+{% block content %}
+<style>
+    body {
+        height:100vh;
+    }
+    
+</style>
 
-    <label>Please Select The Year For Your Past Paper</label>
-<!--To be honest I don't know what this does other than giving me a line of texts-->  
+        <div style="height:auto; width:80%; top: 100px; left:10%; position: relative; text-align:center;"> 
+            <form action="/question", method="post" style="position: relative;">
+            <!--I want the Year and Difficulty to be passed onto the question.html
+                Therefore I used the action to pass the variables to route /question in python first
+                position relative so it is on top of the background-image
+            -->
 
-    <select name="year" class="custom-select custom-select-lg mb-3">
-        <option value="2020">2020-(auto)</option>
-        <option value="2019">2019</option>
-        <option value="2018">2018</option>
-        <option value="2017">2017</option>
-        <option value="2016">2016</option>
-    </select>
-<!--A different kind of "input", this creates a drop down for choosing
-    Note that the name must put into the "select tag" or it wouldn't work-->
+                <label style="font-size:28pt;">Please Select The Year For Your Past Paper</label>
+            <!--To be honest I don't know what this does other than giving me a line of texts-->  
 
-    <br><br>
+                <select name="year" class="custom-select custom-select-lg mb-3" style="background-color:transparent; border-color:black;">
+                    <option value="2020">2020-(auto)</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                </select>
+            <!--A different kind of "input", this creates a drop down for choosing
+                Note that the name must put into the "select tag" or it wouldn't work
+                background transparent so it doesn't stand out too much
+            -->
 
-    <label>Please Select The Difficulty For Your Past Paper</label>
-    <select name = "difficulty" class="custom-select custom-select-lg mb-3">
-        <option value="senior">Senior-(auto)</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="junior">Junior</option>
-    </select>
-    <br><br>
+                <br><br><br>
 
-    <input type="submit" value="Let's get started">
-</form>
+                <label style="font-size:28pt;">Please Select The Difficulty For Your Past Paper</label>
+                <select name = "difficulty" class="custom-select custom-select-lg mb-3" style="background-color:transparent; border-color:black;">
+                    <option value="senior">Senior-(auto)</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="junior">Junior</option>
+                </select>
+                <br><br><br><br><br>
+
+                <input type="submit" value="Let's get started" style="background-color:transparent; border-color:black; font-size:20pt;">
+                <!--value passed to /question route-->
+            </form>
+        </div>
 
 {% endblock %}

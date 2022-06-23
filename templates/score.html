@@ -4,7 +4,12 @@
 <title>Result</title>
 {% endblock %}
 
-{% block body %}
+{% block content %}
+<style>
+    body {
+        height:100vh;
+    }
+</style>
 <div style="text-align :center;">
     <h1>Congratulations</h1><br>
     {% if type == "quiz_5" %}
@@ -14,7 +19,7 @@
         <h2>You scored {{score}} out of 10</h2>
 
     {% else %}
-        <h2>You scored {{score}} out of 135</h2>
+        <h2>You scored {{score}} out of 95</h2>
     {% endif %}
 </div>
 {% endblock %}
