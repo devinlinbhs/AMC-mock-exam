@@ -56,11 +56,11 @@ body come on top the background
             {% if active == 'home' %}
             <!--Check current active website-->
             <li class="nav-item">
-                <a class='nav-link active' href="{{url_for('home')}}">Home</a>
+                <a class='nav-link active' href="/">Home</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class='nav-link' href="{{url_for('home')}}">Home</a>
+                <a class='nav-link' href="/">Home</a>
             </li>
             {% endif %}
 
@@ -68,11 +68,11 @@ body come on top the background
             {% if active == 'setting_exam' %}
             <!--Check current active website-->
             <li class="nav-item">
-                <a class='nav-link active' href="{{url_for('setting_exam')}}">Past Exam</a>
+                <a class='nav-link active' href="setting_exam">Past Exam</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class='nav-link' href="{{url_for('setting_exam')}}">Past Exam</a>
+                <a class='nav-link' href="setting_exam">Past Exam</a>
             </li>
             {% endif %}
 
@@ -80,13 +80,14 @@ body come on top the background
             {% if active == 'setting_quiz' %}
             <!--Check current active website-->
             <li class="nav-item">
-                <a class='nav-link active' href="{{url_for('setting_quiz')}}">Random Quiz</a>
+                <a class='nav-link active' href="setting_quiz">Random Quiz</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class='nav-link' href="{{url_for('setting_quiz')}}">Random Quiz</a>
+                <a class='nav-link' href="setting_quiz">Random Quiz</a>
             </li>
             {% endif %}
+
         </ul>
     </nav>
 

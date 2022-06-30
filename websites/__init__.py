@@ -5,8 +5,26 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
+
+import sqlite3
+from flask import g
+
+DATABASE = '/path/to/database.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
 def create_app():
-    
     app.config['SECRET_KEY'] = 'asdfghjkl'
     from .views import views
     from .auth import auth
