@@ -52,44 +52,104 @@ body come on top the background
 
         <ul class="nav nav-pills">
             <!--Simple styling making the active links like boxes-->
-
-            {% if active == 'home' %}
-            <!--Check current active website-->
-            <li class="nav-item">
-                <a class='nav-link active' href="/">Home</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class='nav-link' href="/">Home</a>
-            </li>
+            {% if session['login'] %}
+                {% if active == 'home' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="/">Home</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="/">Home</a>
+                </li>
+                {% endif %}
             {% endif %}
 
-
-            {% if active == 'setting_exam' %}
-            <!--Check current active website-->
-            <li class="nav-item">
-                <a class='nav-link active' href="setting_exam">Past Exam</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class='nav-link' href="setting_exam">Past Exam</a>
-            </li>
+            {% if session['login'] %}
+                {% if active == 'setting_exam' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="setting_exam">Past Exam</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="setting_exam">Past Exam</a>
+                </li>
+                {% endif %}
             {% endif %}
 
-
-            {% if active == 'setting_quiz' %}
-            <!--Check current active website-->
-            <li class="nav-item">
-                <a class='nav-link active' href="setting_quiz">Random Quiz</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class='nav-link' href="setting_quiz">Random Quiz</a>
-            </li>
+            {% if session['login'] %}
+                {% if active == 'setting_quiz' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="setting_quiz">Random Quiz</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="setting_quiz">Random Quiz</a>
+                </li>
+                {% endif %}
             {% endif %}
 
+            {% if session['login'] %}
+                <li class="nav-item">
+                    <a class='nav-link' href="logout">Log out</a>
+                </li>
+            {% endif %}
+
+            {% if session['login'] == False %}
+                {% if active == 'login' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="login">Login</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="login">Login</a>
+                </li>
+                {% endif %}
+            {% endif %}
+
+            {% if session['login'] == False %}
+                {% if active == 'sign_up' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="sign_up">Sign Up</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="sign_up">Sign Up</a>
+                </li>
+                {% endif %}
+            {% endif %}
         </ul>
     </nav>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        <div style="padding-top:55px;"></div>
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                    
+                {% else %}
+                    <div class="alert alert-success alert-dismissable fade show" role="alert" style="position:relative;">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
 
 
     {% block content %}
@@ -104,6 +164,27 @@ body come on top the background
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <!--Bootstrap Javascript link-->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+    ></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+    ></script>
+    <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+    ></script>
+
+    <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='index.js') }}"
+    ></script>
 </body>
 
 </html>

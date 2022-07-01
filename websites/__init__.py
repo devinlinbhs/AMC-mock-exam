@@ -10,7 +10,7 @@ app = Flask(__name__)
 import sqlite3
 from flask import g
 
-DATABASE = '/path/to/database.db'
+DATABASE = 'AMC.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -31,8 +31,5 @@ def create_app():
     
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-
     
     return app
-
-
