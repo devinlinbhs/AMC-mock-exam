@@ -39,7 +39,7 @@
 }
 
 
-
+/* styling for muti-choice buttons */
 .btn_style {
     align-items: center;
     appearance: none;
@@ -87,11 +87,6 @@
 /*So you click at the button (label), label for allows the radio button to be selected, 
 then the selected radio button will make the label change color*/
 
-/* 
-Green color:#1fd83b
-
-Blue color: #3855e6
-*/
 
 
 .btn_style:hover {
@@ -104,4 +99,42 @@ Blue color: #3855e6
     box-shadow: #a6a9a6 3px 3px 7px;
     color:#f1f1f1;
     transform: translateY(2px);
+}
+
+
+
+.help{
+    display: flex;
+}
+
+/* create a ? help icom */
+.help .icon {
+    height: 20px;
+    width: 20px;
+    background: #e5ecf3;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+
+/* hide the help messages until it is hovered */
+.help .popup{
+    width: 160px;
+    background-color: #e5ecf3;
+    position: absolute;
+    border-radius: 10%;
+    opacity: 0;
+    margin-left: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-align: left;
+}
+
+.help:hover .popup{
+    opacity: 1;
 }

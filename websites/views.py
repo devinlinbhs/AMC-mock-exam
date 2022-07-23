@@ -10,14 +10,17 @@ views = Blueprint('views', __name__)
 def home():
     if session['login']:
         return render_template("home.html", active='home')
+        # if user logged in, go to home page
     else:
         return redirect (url_for('auth.login'))
+        # else go to login page
 
 
 @views.route("/setting_exam")
 def setting_exam():
     if session['login']:
-        return render_template("setting_exam.html")
+        return render_template("setting_exam.html", active='setting_exam')
+        # ensuring user is logged in
     else:
         return redirect (url_for('auth.login'))
 
@@ -151,7 +154,7 @@ def upload_user_answer():
 @views.route("/setting_quiz")
 def setting_quiz():
     if session['login']:
-        return render_template("setting_quiz.html")
+        return render_template("setting_quiz.html", active='setting_quiz')
     else:
         return redirect (url_for('auth.login'))
 

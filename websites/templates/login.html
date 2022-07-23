@@ -11,18 +11,28 @@
 </style>
 
 
-<form method="POST" style="position: relative; padding-top:100px; ">
-    <h3 style= "text-align: center">Login</h3>
-    <div>
+<form action="/login" method="POST" style="position: relative; padding-top:100px; text-align:center;">
+    <h3>Login</h3>
+    <div style="display:flex; margin-left:37%;">
         <label for="account_name">Account Name</label>
         <input type="text" id="account_name" name="account_name" placeholder="Enter account name">
         <!--id means the label is refering to this input
         name is important as it is what is passed to the backend-->
+        <div class="help">
+            <div class="icon">?</div>
+            <div class="popup">Please enter the account name you have created</div>
+        </div>
     </div>
-    <div>
-        <label for="password">Password</label>
+
+    <div style="display:flex; margin-left:37%;">
+        <label for="password" style="padding-right:38px;">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter password">
+        <div class="help">
+            <div class="icon">?</div>
+            <div class="popup">Please enter the password</div>
+        </div>
     </div>
+    
     <br>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
