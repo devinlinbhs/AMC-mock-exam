@@ -8,12 +8,16 @@ views = Blueprint('views', __name__)
 
 @views.route("/")
 def home():
-    if session['login']:
-        return render_template("home.html", active='home')
-        # if user logged in, go to home page
-    else:
-        return redirect (url_for('auth.login'))
+    try:
+        if session['login']:
+            return render_template("home.html", active='home')
+            # if user logged in, go to home page
+        else:
+            return redirect (url_for('auth.login'))
         # else go to login page
+    except KeyError:
+        return redirect (url_for('auth.login'))
+        
 
 
 @views.route("/setting_exam")
@@ -84,16 +88,30 @@ def question():
 def upload_user_answer():
     if session['login']:
         cursor = get_db().cursor()
-        query = "SELECT picture_file FROM question WHERE past_paper_id = ?"
         
+        query = "SELECT picture_file, answer FROM question WHERE past_paper_id = ?"
         cursor.execute(query,(session['past_paper_id'],))
         information = cursor.fetchall()
+        # Get picture file and the model answer of all question in that paper
         
+        
+        query = "INSERT INTO completed_paper (user_id, past_paper_id,score) VALUES (?,?,?);"
+        cursor.execute(query,(session['user_id'],session['past_paper_id'],"new_paper"))
+        get_db().commit()
+        # Create a completed paper
+        
+        query = "SELECT id FROM completed_paper WHERE score = 'new_paper'"
+        cursor.execute(query)
+        completed_paper_id = cursor.fetchall()
+        # Select the id just created
         
         query = "UPDATE question SET user_choice = ? WHERE picture_file = ?"
         # Update the user's answer query
-
-        for i in range(30):
+        query_for_storing_answer = "INSERT INTO stored_answer (completed_paper_id, picture_file, question_number,answer, user_choice) VALUES (?,?,?,?,?);"
+        # Store the user's answer query
+        
+        
+        for i in range(25):
             current_question = i+1
             # create a counting variable
 
@@ -106,6 +124,7 @@ def upload_user_answer():
                 # If there is no answer then there will be error, thus do this route
 
             cursor.execute(query, (answer, information[current_question-1][0]))
+            cursor.execute(query_for_storing_answer, (completed_paper_id[0][0], information[current_question-1][0][0], current_question, information[current_question-1][1], answer))
             # Update the data into the database
         get_db().commit()
 
@@ -120,7 +139,7 @@ def upload_user_answer():
         score = 0
         # Create a new variable
 
-        for count in range(30):
+        for count in range(25):
             question_number = count + 1
             # The real question number is always 'count' + 1
 
@@ -138,7 +157,11 @@ def upload_user_answer():
                 if session['marking_scheme'][count][0] == session['marking_scheme'][count][1]:
                     score += 5
             # Qquestion 21 ~ 25 worth 5 points each
-
+            
+        query = "UPDATE completed_paper SET score = ? WHERE score = 'new_paper'"
+        cursor.execute(query,(score,))
+        get_db().commit()
+        # Record the score about this completed paper
 
         return render_template("score.html", score=score)
     else:

@@ -7,51 +7,57 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth = Blueprint('auth', __name__)
 # Understand Blueprint later
 
+
 @auth.route('/login', methods=['POST', 'GET'])
 def login():
-    if session['login'] == False:
-    # So only can go to this route if user isn't logged in
-        if request.method == 'POST':
-            # Only when user is submitting data
-            
-            account_name = request.form.get('account_name')
-            password = request.form.get('password')
-            # Get users' input
-            
-            cursor = get_db().cursor()
-            query = "SELECT * FROM user WHERE account_name = ?;"
-            # Find the information of the user with that account_name in the database
-            
-            cursor.execute(query, (account_name,))
-            user = cursor.fetchall()
-            # Get all the information of that user
-            
-            if user:
-            # If the information is not empty, i.e. user exists
-            
-                if check_password_hash(user[0][2], password):
-                # If the password entered then hashed is equal to the hashed password stored, 
-                # then the password is correct
+    try:
+        if session['login'] == False:
+        # So only can go to this route if user isn't logged in
+            if request.method == 'POST':
+                # Only when user is submitting data
                 
-                    flash('Logged in successfully!', category='success')
-                    # Flash a green reminder
+                account_name = request.form.get('account_name')
+                password = request.form.get('password')
+                # Get users' input
+                
+                cursor = get_db().cursor()
+                query = "SELECT * FROM user WHERE account_name = ?;"
+                # Find the information of the user with that account_name in the database
+                
+                cursor.execute(query, (account_name,))
+                user = cursor.fetchall()
+                # Get all the information of that user
+                
+                if user:
+                # If the information is not empty, i.e. user exists
+                
+                    if check_password_hash(user[0][2], password):
+                    # If the password entered then hashed is equal to the hashed password stored, 
+                    # then the password is correct
                     
-                    session['login'] = True
-                    # Showing user is logged in in the backend
-                    return redirect(url_for('views.home'))
-                    # Go to home page
+                        flash('Logged in successfully!', category='success')
+                        # Flash a green reminder
+                        
+                        session['login'] = True
+                        # Showing user is logged in in the backend
+
+                        session['user_id'] = user[0][0]
+                        return redirect(url_for('views.home'))
+                        # Go to home page
+                    else:
+                        flash('Incorrect password, try again.', category='error')
+                        # Hashed passwords are not the same, flash error message
                 else:
-                    flash('Incorrect password, try again.', category='error')
-                    # Hashed passwords are not the same, flash error message
-            else:
-                flash('Account Name doesn\'t exist, try again.', category='error')
-                # If there is no information, then there is no such a user
-            
-        return render_template('login.html', active = 'login')
-        # After all, user didn't logged in, so display login.html
-    else:
-        return redirect(url_for('views.home'))
-        # If user already logged in, they should be in home page
+                    flash('Account Name doesn\'t exist, try again.', category='error')
+                    # If there is no information, then there is no such a user
+                
+            return render_template('login.html', active = 'login')
+            # After all, user didn't logged in, so display login.html
+        else:
+            return redirect(url_for('views.home'))
+            # If user already logged in, they should be in home page
+    except KeyError:
+        return redirect (url_for('auth.logout'))
 
 @auth.route('/logout')
 def logout():
