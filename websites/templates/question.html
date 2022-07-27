@@ -27,7 +27,7 @@
                 I plan to put question image and muti-choice buttons in it
                 This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
                 
-                <img src="/static/{{file_location}}/{{information[current_question-1][0]}}.jpg" class="card-img-top" 
+                <img src="/static/{{session['file_location']}}/{{session['information'][current_question-1][0]}}.jpg" class="card-img-top" 
                 id="image{{current_question}}" style="position: relative; padding-top: 100px;"> <br>
                 <!--The link of the image is actually grabbed from the "picture_file" column in the database, which was passed from python
                 The "file_location" is passed from python as well by user's filter

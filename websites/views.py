@@ -66,7 +66,7 @@ def question():
         
         session["past_paper_id"] = str(past_paper_id)
         
-        file_location = year +'_'+difficulty
+        session['file_location'] = year +'_'+difficulty
         # Create a string which is exactly the file location
 
         cursor = get_db().cursor()
@@ -74,10 +74,10 @@ def question():
         # Create a cursor to deliver query in the database
 
         cursor.execute(query,(past_paper_id,))
-        information = cursor.fetchall()
+        session['information'] = cursor.fetchall()
         # Get all the picture files in a tuple
         
-        return render_template("question.html", information=information, active='setting_exam', file_location = file_location)
+        return render_template("question.html", active='setting_exam')
         # Lead to question.html, pass the picture_files to the website with the current question, and the current active website
     else:
         return redirect (url_for('auth.login'))
@@ -90,7 +90,7 @@ def upload_user_answer():
         
         query = "SELECT picture_file, answer FROM question WHERE past_paper_id = ?"
         cursor.execute(query,(session['past_paper_id'],))
-        information = cursor.fetchall()
+        session['information'] = cursor.fetchall()
         # Get picture file and the model answer of all question in that paper
         
         
@@ -122,8 +122,8 @@ def upload_user_answer():
                 answer = ''
                 # If there is no answer then there will be error, thus do this route
 
-            cursor.execute(query, (answer, information[current_question-1][0]))
-            cursor.execute(query_for_storing_answer, (completed_paper_id[0][0], information[current_question-1][0][0], current_question, information[current_question-1][1], answer))
+            cursor.execute(query, (answer, session['information'][current_question-1][0]))
+            cursor.execute(query_for_storing_answer, (completed_paper_id[0][0], session['information'][current_question-1][0][0], current_question, session['information'][current_question-1][1], answer))
             # Update the data into the database
         get_db().commit()
 
@@ -190,14 +190,14 @@ def quiz():
         # difficulty will determine how hard the overall paper is
 
 
-        file_location_set = []
+        session['file_location_set'] = []
         # This will be passed to the website, which helps the "url_for" to find the picture file position
         
         session['marking_scheme'] = []
         # This ensures the marking_scheme of the mixed list is passed to the marking route for 
         # quiz without messing up the correct answer for the random questions
         
-        question_set = []
+        session['question_set'] = []
         # Create a list to store the name of the random questions' images
         
         past_paper_id = 0
@@ -218,21 +218,21 @@ def quiz():
         
         
         if set == "set1":
-            constant = 1
+            session['constant'] = 1
             session['run'] = 10
-            # Constant will be add to the {i} to get the question number we supposed to be on
+            # session['Constant'] will be add to the {i} to get the question number we supposed to be on
             # "set" determine how many times we run the for loop
             
         elif set == "set2":
-            constant = 11
+            session['constant'] = 11
             session['run'] = 10
             
         else:
-            constant = 21
+            session['constant'] = 21
             session['run'] = 5
             
         for i in range (session['run']):
-            question_number = i + constant
+            question_number = i + session['constant']
             year = random.randint(2016, 2020)
             
             past_paper_id_value = str(past_paper_id + year - 2015)
@@ -241,19 +241,18 @@ def quiz():
             cursor.execute(query,(past_paper_id_value, question_number))
             random_question = cursor.fetchall()
 
-            question_set.append(random_question[0][0])
+            session['question_set'].append(random_question[0][0])
             # Store the name of the image into the list, so we can recall the 
             # names/locations of the images in HTML
             
             session['marking_scheme'].append(random_question[0][1])
             # Store the correct answer and pass onto the marking route
             
-            file_location = str(year)+'_'+difficulty
-            file_location_set.append(file_location)
+            session['file_location'] = str(year)+'_'+difficulty
+            session['file_location_set'].append(session['file_location'])
             # Adding the file location of each image correspondingly to recall them in the HTML
 
-        return render_template("quiz.html", question_set = question_set, file_location_set = file_location_set,
-                                run = session['run'], constant = constant, active = "setting_quiz")
+        return render_template("quiz.html", active = "setting_quiz")
     else:
         return redirect (url_for('auth.login'))
 
@@ -261,17 +260,17 @@ def quiz():
 @views.route("/upload_user_answer_quiz", methods=['GET', 'POST'])
 def upload_user_answer_quiz():
     if session['login']:
-        answer_set = []
+        session['answer_set'] = []
         for i in range(session['run']):
             current_question = i+1
             # create a counting variable
 
             try:
-                answer_set.append(request.form["answer" + str(current_question)])
+                session['answer_set'].append(request.form["answer" + str(current_question)])
     # Now bring the value of the "answer1" or "answer2" etc from the question.html, the user's choice for the question to the python file
 
             except:
-                answer_set.append('')
+                session['answer_set'].append('')
                 # If there is no answer then there will be error, thus do this route
 
         score = 0
@@ -284,7 +283,7 @@ def upload_user_answer_quiz():
         # This tells the HTML what is the mark actually out of
         
         for count in range(session['run']):
-            if session['marking_scheme'][count] == answer_set[count]:
+            if session['marking_scheme'][count] == session['answer_set'][count]:
                 score += 1
 
         return render_template("score.html", score=score, type = type)

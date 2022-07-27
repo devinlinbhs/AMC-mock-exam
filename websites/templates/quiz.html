@@ -17,7 +17,7 @@
         The next thing inside the box will be in the center of this box-->
 
         <br><br><br>
-        {% for i in range(run) %}
+        {% for i in range(session['run']) %}
         {% set current_question = i + 1 %}
         <!--Print the questions 10 or 5 times and count the current question-->
 
@@ -25,12 +25,12 @@
             <!--Creating another smaller box
                 I plan to put question image and muti-choice buttons in it
                 This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
-                <img src="/static/{{file_location_set[i]}}/{{question_set[i]}}.jpg" class="card-img-top" 
+                <img src="/static/{{session['file_location_set'][i]}}/{{session['question_set'][i]}}.jpg" class="card-img-top" 
                 id="image{{current_question}}" style="position: relative; padding-top: 100px; padding-bottom:5px;"> <br>
                 <!--The link of the image is actually grabbed from the "picture_file" column in the database, which was passed from python
-                The "file_location" is passed from python as well by user's filter
+                The "file_location_set" is passed from python as well by user's filter
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
-                {% set actual_question = i + constant %}
+                {% set actual_question = i + session['constant'] %}
                 <form action="/upload_user_answer_quiz", method="post">
             <!--action means do that route, method "post" means update information I think-->
 
@@ -79,7 +79,7 @@
     </div>
 
     <div class="question_sidenav" style="background-color:transparent;">
-        {% for i in range(run) %}
+        {% for i in range(session['run']) %}
         {% set current_question = i + 1 %}
         <a id="q{{current_question}}" href="#image{{current_question}}">Question {{current_question}}</a>
         {% endfor %}
