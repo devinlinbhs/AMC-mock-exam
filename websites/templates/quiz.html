@@ -17,7 +17,7 @@
         The next thing inside the box will be in the center of this box-->
 
         <br><br><br>
-        {% for i in range(session['run']) %}
+        {% for i in range(run) %}
         {% set current_question = i + 1 %}
         <!--Print the questions 10 or 5 times and count the current question-->
 
@@ -79,7 +79,7 @@
     </div>
 
     <div class="question_sidenav" style="background-color:transparent;">
-        {% for i in range(session['run']) %}
+        {% for i in range(run) %}
         {% set current_question = i + 1 %}
         <a id="q{{current_question}}" href="#image{{current_question}}">Question {{current_question}}</a>
         {% endfor %}

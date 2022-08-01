@@ -96,6 +96,8 @@ def upload_user_answer():
         
         query = "INSERT INTO completed_paper (user_id, past_paper_id,score) VALUES (?,?,?);"
         cursor.execute(query,(session['user_id'],session['past_paper_id'],"new_paper"))
+        # session['user_id'] is defined when the user is logged in and stored as his id
+        
         get_db().commit()
         # Create a completed paper
         
@@ -162,7 +164,7 @@ def upload_user_answer():
         get_db().commit()
         # Record the score about this completed paper
 
-        return render_template("score.html", score=score)
+        return render_template("score.html", run='', score=score)
     else:
         return redirect (url_for('auth.login'))
 
@@ -219,19 +221,19 @@ def quiz():
         
         if set == "set1":
             session['constant'] = 1
-            session['run'] = 10
+            run = 10
             # session['Constant'] will be add to the {i} to get the question number we supposed to be on
             # "set" determine how many times we run the for loop
             
         elif set == "set2":
             session['constant'] = 11
-            session['run'] = 10
+            run = 10
             
         else:
             session['constant'] = 21
-            session['run'] = 5
+            run = 5
             
-        for i in range (session['run']):
+        for i in range (run):
             question_number = i + session['constant']
             year = random.randint(2016, 2020)
             
@@ -252,7 +254,8 @@ def quiz():
             session['file_location_set'].append(session['file_location'])
             # Adding the file location of each image correspondingly to recall them in the HTML
 
-        return render_template("quiz.html", active = "setting_quiz")
+            session['run'] = run
+        return render_template("quiz.html", run=run, active = "setting_quiz")
     else:
         return redirect (url_for('auth.login'))
 
@@ -261,7 +264,8 @@ def quiz():
 def upload_user_answer_quiz():
     if session['login']:
         session['answer_set'] = []
-        for i in range(session['run']):
+        run = session['run']
+        for i in range(run):
             current_question = i+1
             # create a counting variable
 
@@ -276,16 +280,75 @@ def upload_user_answer_quiz():
         score = 0
         # Create a new variable
         
-        if session['run'] == 5:
+        if run == 5:
             type = "quiz_5"
         else:
             type = "quiz_10"
         # This tells the HTML what is the mark actually out of
         
-        for count in range(session['run']):
+        for count in range(run):
             if session['marking_scheme'][count] == session['answer_set'][count]:
                 score += 1
 
-        return render_template("score.html", score=score, type = type)
+        return render_template("score.html", run=run, score=score, type = type)
     else:
         return redirect (url_for('auth.login'))
+    
+    
+    
+    
+@views.route("/filter_completed_paper", methods = ["GET","POST"])
+def filter_completed_paper():
+    session['completed'] = []
+    session['highest_score'] = []
+    # Completed will store the name of the paper completed
+    # Highest_score will store the highest store of that paper completed
+    
+    cursor = get_db().cursor()
+    query = "SELECT DISTINCT past_paper_id FROM completed_paper WHERE user_id = ? ORDER BY past_paper_id DESC"
+    cursor.execute(query,(session['user_id'],))
+    # session['user_id'] is defined when the user is logged in and stored as his id
+    amount_of_different_paper = cursor.fetchall()
+    # Select the different paper done by the CURRENT user, with the past paper id
+    
+    
+    for i in range(len(amount_of_different_paper)):
+        # Run the loop the amount of time that the amount of different past paper the user done
+        query = "SELECT year, difficulty FROM past_paper WHERE id = ?"
+        cursor.execute(query,(amount_of_different_paper[i][0],))
+        # amount_of_past_paper[i][0] correspond with the 'past_paper_id' in completed paper table thus the 'id' in past paper table
+        
+        name_of_paper = cursor.fetchall()
+        query = "SELECT COUNT(past_paper_id) FROM completed_paper WHERE past_paper_id = ? AND user_id = ?"
+        cursor.execute(query,(amount_of_different_paper[i][0], session['user_id']))
+        number_of_time_completed = cursor.fetchall()[0][0]
+        
+        actual_paper = f'AMC {name_of_paper[0][0]} {name_of_paper[0][1]} (completed {number_of_time_completed} times)'
+        # name_of_paper[0][0] = year, name_of_paper[0][1] = difficulty 
+        # number_of_time_completed = the number of time completed on that paper
+        
+        session['completed'].append(actual_paper)
+        # Add the information into the list and will be used in the filter page to display
+        
+        
+        
+        
+        query = "SELECT MAX(score) FROM completed_paper WHERE past_paper_id = ? AND user_id = ? ORDER BY past_paper_id DESC"
+        cursor.execute(query,(amount_of_different_paper[i][0], session['user_id']))
+        # Select only the top score in -->  amount_of_different_paper[i][0] = past_paper_id
+        # Basically the top score in each past paper completed
+        
+        # Thus if the user completed past_paper_id:15 for 3 times, we only show the highest score 
+        # session['user_id'] is defined when the user is logged in and stored as his id
+        highest_score = cursor.fetchall()[0][0]
+        # The highest score that the user completed 
+        
+        session['highest_score'].append(highest_score)
+        # Add them all into a list and display them in front of the user in filter_completed_paper.html
+        
+    return render_template("filter_completed_paper.html", number_of_completed = len(session['completed']), 
+        active="result")
+    
+@views.route("/completed_paper", methods = ["GET","POST"])
+def completed_paper():
+    return render_template("completed_paper.html")

@@ -16,8 +16,6 @@
 
         {% elif type == "quiz_10" %}
             <h2>You scored {{score}} out of 10</h2>
-            
-        {% endif %}    
         <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent; opacity:0.75;"> 
             <!--Creating a box
                 Height:full screen
@@ -25,7 +23,7 @@
                 The next thing inside the box will be in the center of this box-->
         
                 <br><br><br>
-                {% for i in range(session['run']) %}
+                {% for i in range(run) %}
                 {% set current_question = i + 1 %}
                 <!--Print the questions 10 or 5 times and count the current question-->
         
@@ -46,7 +44,7 @@
                         <br><br>
                         <div class="btn_layout">
                             <!--session['marking_scheme'][i][0] Correct answer-->
-                            <!--session['marking_scheme'][i][1] User answer-->
+                            <!--session['answer_set'][i] User answer-->
 
 
                             {% if session['marking_scheme'][i][0] == 'a' %}
@@ -54,14 +52,14 @@
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}a">A</label>
                                 <!--If the correct answer is 'a', style the button green-->
 
-                            {% elif session['marking_scheme'][i][1] == 'a' %}
+                            {% elif session['answer_set'][i] == 'a' %}
                                 <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}a">A</label>
                                 <!--If the user answer is 'a', style the button red
                                 If both of them are 'a', then the button is still green because Jinja rum the if answer is 'a' first
                                 This means only 'a' will be green-->
 
-                            {% elif session['marking_scheme'][i][1] == '' or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1]%}
+                            {% elif session['answer_set'][i] == '' or session['answer_set'][i] !=session['marking_scheme'][i][0]%}
                                 <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}a">A</label>
                                 <!--I want all the remaining button to be grey if the user didn't get the question correct
@@ -80,11 +78,11 @@
                                 <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}b">B</label>
                                 
-                            {% elif session['marking_scheme'][i][1] == 'b' %}
+                            {% elif session['answer_set'][i] == 'b' %}
                                 <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}b">B</label>
 
-                            {% elif session['marking_scheme'][i][1] == ''or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1]%}
+                            {% elif session['answer_set'][i] == ''or session['answer_set'][i] !=session['marking_scheme'][i][0]%}
                                 <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}b">B</label>
                             
@@ -98,11 +96,11 @@
                                 <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}c">C</label>
                                 
-                            {% elif session['marking_scheme'][i][1] == 'c' %}
+                            {% elif session['answer_set'][i] == 'c' %}
                                 <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}c">C</label>
                             
-                            {% elif session['marking_scheme'][i][1] == ''or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1]%}
+                            {% elif session['answer_set'][i] == ''or session['answer_set'][i] !=session['marking_scheme'][i][0]%}
                                 <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}c">C</label>
                             
@@ -116,11 +114,11 @@
                                 <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}d">D</label>
                                 
-                            {% elif session['marking_scheme'][i][1] == 'd' %}
+                            {% elif session['answer_set'][i] == 'd' %}
                                 <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}d">D</label>
                             
-                            {% elif session['marking_scheme'][i][1] == ''or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1]%}
+                            {% elif session['answer_set'][i] == ''or session['answer_set'][i] !=session['marking_scheme'][i][0]%}
                                 <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}d">D</label>
                             
@@ -134,11 +132,11 @@
                                 <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}e">E</label>
                                 
-                            {% elif session['marking_scheme'][i][1] == 'e' %}
+                            {% elif session['answer_set'][i] == 'e' %}
                                 <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}e">E</label>
                             
-                            {% elif session['marking_scheme'][i][1] == ''or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1]%}
+                            {% elif session['answer_set'][i] == ''or session['answer_set'][i] !=session['marking_scheme'][i][0]%}
                                 <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}e">E</label>
 
@@ -159,11 +157,24 @@
                     </form>
         </div>
         <div class="question_sidenav" style="background-color:transparent;">
-            {% for i in range(session['run']) %}
+            {% for i in range(run) %}
             {% set current_question = i + 1 %}
-            <a id="q{{current_question}}" href="#image{{current_question}}">Question {{current_question}}</a>
+                {% if session['answer_set'][i] ==  session['marking_scheme'][i][0]%}
+                    <a id="q{{current_question}}" href="#image{{current_question}}" style="background-color:#1fd83b;">Question {{current_question}}</a>
+
+                {% elif session['answer_set'][i] == ''%}
+                    <a id="q{{current_question}}" href="#image{{current_question}}" style="background-color:#413f3b;">Question {{current_question}}</a>
+                    <!--If the answer is empty, style sidenav grey-->
+
+                {% else %}
+                    <a id="q{{current_question}}" href="#image{{current_question}}" style="background-color:#f51b1b;">Question {{current_question}}</a>
+                    <!--If the answer is wrong, style sidenav red-->
+                {% endif %}
             {% endfor %}
+                
         </div>
+
+
     {% else %}
         <h2>You scored {{score}} out of 95</h2>
 <!--Work on the specific width later-->
@@ -176,7 +187,6 @@
             {% for i in range(25) %}
             {% set current_question = i + 1 %}
             <!--Print the questions 30 times and count the current question-->
-    
             <div style="height:auto; width:100%; text-align:center;"> 
                 <!--Creating another smaller box
                     I plan to put question image and muti-choice buttons in it
@@ -199,19 +209,19 @@
                             <!--session['marking_scheme'][i][1] User answer-->
 
 
-                            {% if session['answer_set'][i] == 'a' %}
+                            {% if session['marking_scheme'][i][0] == 'a' %}
                                 <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}a">A</label>
                                 <!--If the correct answer is 'a', style the button green-->
 
-                            {% elif session['marking_scheme'][i] == 'a' %}
+                            {% elif session['marking_scheme'][i][1] == 'a' %}
                                 <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}a">A</label>
                                 <!--If the user answer is 'a', style the button red
                                 If both of them are 'a', then the button is still green because Jinja rum the if answer is 'a' first
                                 This means only 'a' will be green-->
 
-                            {% elif session['marking_scheme'][i] == '' or session['answer_set'][i] !=session['marking_scheme'][i] %}
+                            {% elif session['marking_scheme'][i][1] == '' or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1] %}
                                 <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}a">A</label>
                                 <!--I want all the remaining button to be grey if the user didn't get the question correct
@@ -226,15 +236,15 @@
                             {% endif %}
 
 
-                            {% if session['answer_set'][i] == 'b' %}
+                            {% if session['marking_scheme'][i][0] == 'b' %}
                                 <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}b">B</label>
                                 
-                            {% elif session['marking_scheme'][i] == 'b' %}
+                            {% elif session['marking_scheme'][i][1] == 'b' %}
                                 <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}b">B</label>
 
-                            {% elif session['marking_scheme'][i] == '' or session['answer_set'][i] !=session['marking_scheme'][i] %}
+                            {% elif session['marking_scheme'][i][1] == '' or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1] %}
                                 <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}b">B</label>
                             
@@ -244,15 +254,15 @@
                             {% endif %}
                             
 
-                            {% if session['answer_set'][i] == 'c' %}
+                            {% if session['marking_scheme'][i][0] == 'c' %}
                                 <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}c">C</label>
                                 
-                            {% elif session['marking_scheme'][i] == 'c' %}
+                            {% elif session['marking_scheme'][i][1] == 'c' %}
                                 <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}c">C</label>
                             
-                            {% elif session['marking_scheme'][i] == '' or session['answer_set'][i] !=session['marking_scheme'][i] %}
+                            {% elif session['marking_scheme'][i][1] == '' or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1] %}
                                 <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}c">C</label>
                             
@@ -262,15 +272,15 @@
                             {% endif %}
 
 
-                            {% if session['answer_set'][i] == 'd' %}
+                            {% if session['marking_scheme'][i][0] == 'd' %}
                                 <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}d">D</label>
                                 
-                            {% elif session['marking_scheme'][i] == 'd' %}
+                            {% elif session['marking_scheme'][i][1] == 'd' %}
                                 <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}d">D</label>
                             
-                            {% elif session['marking_scheme'][i] == '' or session['answer_set'][i] !=session['marking_scheme'][i] %}
+                            {% elif session['marking_scheme'][i][1] == '' or session['marking_scheme'][i][0] !=session['marking_scheme'][i][0] %}
                                 <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}d">D</label>
                             
@@ -280,15 +290,15 @@
                             {% endif %}
 
 
-                            {% if session['answer_set'][i] == 'e' %}
+                            {% if session['marking_scheme'][i][0] == 'e' %}
                                 <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e"  disabled>
                                 <label class="btn_style" style="background-color: #1fd83b; box-shadow: #057b07 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}e">E</label>
                                 
-                            {% elif session['marking_scheme'][i] == 'e' %}
+                            {% elif session['marking_scheme'][i][1] == 'e' %}
                                 <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e"  disabled>
                                 <label class="btn_style" style="background-color: #f51b1b; box-shadow: #870707 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}e">E</label>
                             
-                            {% elif session['marking_scheme'][i] == '' or session['answer_set'][i] !=session['marking_scheme'][i] %}
+                            {% elif session['marking_scheme'][i][0] == '' or session['marking_scheme'][i][0] !=session['marking_scheme'][i][1] %}
                                 <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e"  disabled>
                                 <label class="btn_style" style="background-color: #413f3b; box-shadow: #1e2024 3px 3px 7px; color:#f1f1f1;" for="answer{{current_question}}e">E</label>
 
@@ -331,6 +341,7 @@
             {% endfor %}
         </div>
         <!--The side-nav with the corresponding id to each button for the javascript to render-->
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

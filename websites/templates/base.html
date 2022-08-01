@@ -92,6 +92,19 @@ body come on top the background
             {% endif %}
 
             {% if session['login'] %}
+                {% if active == 'result' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="filter_completed_paper">Past Result</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="filter_completed_paper">Past Result</a>
+                </li>
+                {% endif %}
+            {% endif %}
+
+            {% if session['login'] %}
                 <li class="nav-item">
                     <a class='nav-link' href="logout">Log out</a>
                 </li>
