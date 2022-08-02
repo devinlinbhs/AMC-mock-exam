@@ -11,8 +11,7 @@
 <!--Question page contents-->
 
 
-<!--Work on the specific width later-->
-    <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent; opacity:0.75;"> 
+    <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent;"> 
     <!--Creating a box
         Height:full screen
         Width: 84% of the length
@@ -32,7 +31,10 @@
                 <!--The link of the image is actually grabbed from the "picture_file" column in the database, which was passed from python
                 The "file_location" is passed from python as well by user's filter
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
-            
+                <!--session['file_location'] = year +'_'+difficulty
+                    session['information'] = name of each images
+                -->
+
                 <form action="/upload_user_answer", method="post">
             <!--action means do that route, method "post" means update information I think-->
 

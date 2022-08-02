@@ -69,11 +69,11 @@ body come on top the background
                 {% if active == 'setting_exam' %}
                 <!--Check current active website-->
                 <li class="nav-item">
-                    <a class='nav-link active' href="setting_exam">Past Exam</a>
+                    <a class='nav-link active' href="{{url_for('views.setting_exam')}}">Past Exam</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class='nav-link' href="setting_exam">Past Exam</a>
+                    <a class='nav-link' href="{{url_for('views.setting_exam')}}">Past Exam</a>
                 </li>
                 {% endif %}
             {% endif %}
@@ -82,11 +82,11 @@ body come on top the background
                 {% if active == 'setting_quiz' %}
                 <!--Check current active website-->
                 <li class="nav-item">
-                    <a class='nav-link active' href="setting_quiz">Random Quiz</a>
+                    <a class='nav-link active' href="{{url_for('views.setting_quiz')}}">Random Quiz</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class='nav-link' href="setting_quiz">Random Quiz</a>
+                    <a class='nav-link' href="{{url_for('views.setting_quiz')}}">Random Quiz</a>
                 </li>
                 {% endif %}
             {% endif %}
@@ -95,18 +95,18 @@ body come on top the background
                 {% if active == 'result' %}
                 <!--Check current active website-->
                 <li class="nav-item">
-                    <a class='nav-link active' href="filter_completed_paper">Past Result</a>
+                    <a class='nav-link active' href="{{url_for('views.filter_completed_paper')}}">Past Result</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class='nav-link' href="filter_completed_paper">Past Result</a>
+                    <a class='nav-link' href="{{url_for('views.filter_completed_paper')}}">Past Result</a>
                 </li>
                 {% endif %}
             {% endif %}
 
             {% if session['login'] %}
                 <li class="nav-item">
-                    <a class='nav-link' href="logout">Log out</a>
+                    <a class='nav-link' href="{{url_for('auth.logout')}}">Log out</a>
                 </li>
             {% endif %}
 
@@ -114,11 +114,11 @@ body come on top the background
                 {% if active == 'login' %}
                 <!--Check current active website-->
                 <li class="nav-item">
-                    <a class='nav-link active' href="login">Login</a>
+                    <a class='nav-link active' href="{{url_for('auth.login')}}">Login</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class='nav-link' href="login">Login</a>
+                    <a class='nav-link' href="{{url_for('auth.login')}}">Login</a>
                 </li>
                 {% endif %}
             {% endif %}
@@ -127,11 +127,11 @@ body come on top the background
                 {% if active == 'sign_up' %}
                 <!--Check current active website-->
                 <li class="nav-item">
-                    <a class='nav-link active' href="sign_up">Sign Up</a>
+                    <a class='nav-link active' href="{{url_for('auth.sign_up')}}">Sign Up</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class='nav-link' href="sign_up">Sign Up</a>
+                    <a class='nav-link' href="{{url_for('auth.sign_up')}}">Sign Up</a>
                 </li>
                 {% endif %}
             {% endif %}

@@ -41,7 +41,7 @@
                     {% for i in range(number_of_completed) %}
                         <tr>
                             <th scope="row">{{i+1}}</th>
-                            <td>{{session['completed'][i]}}</td>
+                            <td><a class='nav-link' href="past_result/{{i}}">{{session['completed'][i]}}</a></td>
                             <td>{{session['highest_score'][i]}}/95
                             </td>
                         </tr>
@@ -49,7 +49,7 @@
                     {% endfor %}
                     {% endif %}
                     
-                    
+
                 </tbody>
             </table>
         </div>
