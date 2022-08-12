@@ -8,13 +8,13 @@
 
 <div style="text-align :center;">
     <h1>Congratulations</h1><br>
-    {% if type == "quiz_5" or "quiz_10" %}
+    {% if type == "quiz_5" or type == "quiz_10" %}
         {% if type == "quiz_5" %}
             <h2>You scored {{score}} out of 5</h2>
-
-
-        {% elif type == "quiz_10" %}
+        {% else %}
             <h2>You scored {{score}} out of 10</h2>
+        {% endif %}
+        
         <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent;"> 
             <!--Creating a box
                 Height:full screen
@@ -22,55 +22,56 @@
                 The next thing inside the box will be in the center of this box-->
         
                 <!--Explain what the color of the button and side nav means-->
-        <!--Flex ensuring this two headings are in the same line-->
-        <div style="width: 80vw; padding-left:2vw; padding-right:2vw; text-align:left; display: flex; color:#2b2727">
-            <h2 style="width: 38vw;">Side Nav Color Meanings:</h2>
-            <h2 style="width: 42vw;">Buttons Color Meanings:</h2>
-        </div>
 
-        <!--Creating 5 boxes which stick together for a good format-->
-        <div style="width: 80vw; padding-left:2vw; padding-right:2vw; text-align:left; display: flex; color:#2b2727">
-            <div style="height:auto; width:38vw;"> 
-                <div style="display:flex;">
-                    <div style="width:6vw;">
-                        <h3>
-                            Green<br>
-                            Red<br>
-                            Dark
-                        </h3>
-                    </div>
-                    <div style="width:3.5vw;">
-                        <h3>
-                            --><br>
-                            --><br>
-                            -->
-                        </h3>
-                    </div>
-                    <div style="width:13.5vw;">
-                        <h3>
-                            Correct<br>
-                            Wrong<br>
-                            Not Attempted
-                        </h3>
+            <!--Flex ensuring this two headings are in the same line-->
+            <div style="width: 80vw; padding-left:2vw; padding-right:2vw; text-align:left; display: flex; color:#2b2727">
+                <h2 style="width: 38vw;">Side Nav Color Meanings:</h2>
+                <h2 style="width: 42vw;">Buttons Color Meanings:</h2>
+            </div>
+
+            <!--Creating 5 boxes which stick together for a good format-->
+            <div style="width: 80vw; padding-left:2vw; padding-right:2vw; text-align:left; display: flex; color:#2b2727">
+                <div style="height:auto; width:38vw;"> 
+                    <div style="display:flex;">
+                        <div style="width:6vw;">
+                            <h3>
+                                Green<br>
+                                Red<br>
+                                Dark
+                            </h3>
+                        </div>
+                        <div style="width:3.5vw;">
+                            <h3>
+                                --><br>
+                                --><br>
+                                -->
+                            </h3>
+                        </div>
+                        <div style="width:13.5vw;">
+                            <h3>
+                                Correct<br>
+                                Wrong<br>
+                                Not Attempted
+                            </h3>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="display:flex">
-                <div style="height:auto; width:26vw; padding-right:1vw; text-align:right;">
-                    <h3>Green & White buttons:<br>
-                    Green & Red & Dark buttons:<br>
-                    Green & Dark buttons:
-                </div> 
-                <div style="height:auto; width:15vw;">
-                    <h3>Correct choice
-                    <br>Wrong choice
-                    <br>No choice</h3>
-                </div> 
+                <div style="display:flex">
+                    <div style="height:auto; width:26vw; padding-right:1vw; text-align:right;">
+                        <h3>Green & White buttons:<br>
+                        Green & Red & Dark buttons:<br>
+                        Green & Dark buttons:
+                    </div> 
+                    <div style="height:auto; width:15vw;">
+                        <h3>Correct choice
+                        <br>Wrong choice
+                        <br>No choice</h3>
+                    </div> 
+                </div>
             </div>
-        </div>
-                {% for i in range(run) %}
-                {% set current_question = i + 1 %}
+            {% for i in range(run) %}
+            {% set current_question = i + 1 %}
                 <!--Print the questions 10 or 5 times and count the current question-->
         
                 <div style="height:auto; width:100%; text-align:center;"> 
@@ -83,7 +84,7 @@
                         The "file_location_set" is passed from python as well by user's filter
                         The class is from bootstrap ensuring the image stay on top and full width in size-->
                         {% set actual_question = i + session['constant'] %}
-                        <form action="/upload_user_answer_quiz", method="post">
+                        <form action="/", method="get">
                     <!--action means do that route, method "post" means update information I think-->
         
         
@@ -200,6 +201,9 @@
                         -->
             </div>
             {% endfor %}
+                    
+                        <br><br><br>
+                        <input type="submit" value="Back to home" class="btn_style" style="font-size:20pt; margin-left:6%;">
                     </form>
         </div>
         <div class="question_sidenav" style="background-color:transparent;">
@@ -223,7 +227,11 @@
 
     {% else %}
         <h2>You scored {{score}} out of 95</h2>
-
+        <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent;"> 
+            <!--Creating a box
+                Height:full screen
+                Width: 84% of the length
+                The next thing inside the box will be in the center of this box-->    
 
         <!--Explain what the color of the button and side nav means-->
         <!--Flex ensuring this two headings are in the same line-->
@@ -273,12 +281,7 @@
                 </div> 
             </div>
         </div>
-    <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent;"> 
-        <!--Creating a box
-            Height:full screen
-            Width: 84% of the length
-            The next thing inside the box will be in the center of this box-->
-    
+
             {% for i in range(25) %}
             {% set current_question = i + 1 %}
             <!--Print the questions 30 times and count the current question-->
@@ -293,7 +296,7 @@
                     The "file_location" is passed from python as well by user's filter
                     The class is from bootstrap ensuring the image stay on top and full width in size-->
                 
-                    <form action="/upload_user_answer", method="post">
+                    <form action="/", method="get">
                 <!--action means do that route, method "post" means update information I think-->
     
     
@@ -413,7 +416,8 @@
                         -->
             </div>
             {% endfor %}
-
+                        <br><br><br>
+                        <input type="submit" value="Back to home" class="btn_style" style="font-size:20pt; margin-left:6%;">
                     </form>
         </div>
     
@@ -436,7 +440,6 @@
             {% endfor %}
         </div>
 
-    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

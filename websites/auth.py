@@ -131,8 +131,63 @@ def add():
     get_db().commit()
     # Save it
     
+    query = "SELECT * FROM user WHERE account_name = ?;"
+    cursor.execute(query, (session['account_name'],))
+    user = cursor.fetchall()
+    session['user_id'] = user[0][0]
+    # The user id of the user is passed to the 'views'
+    
     session['login'] = True
     # User is logged in
     
     return redirect(url_for('views.home'))
     # Now go to home page
+    
+@auth.route("/change_password", methods=["GET", "POST"])
+def change_password():
+    old_password = request.form.get('old_password')
+    new_password = request.form.get('new_password')
+    confirm_new_password = request.form.get('confirm_new_password')
+    if check_password_hash(session['setting_password'], old_password):
+    # If the old password entered correctly
+    
+        if new_password == '':
+        # No input for old password
+            flash('Please enter your new password', category='error')  
+            
+        elif confirm_new_password == '':
+            # No input for old password
+            flash('Please confirm your new password', category='error')
+    
+        elif new_password != confirm_new_password:
+        # If the two new passwords are different
+            flash('Your confirm password is not the same as your new password, please check again', category='error')
+            
+        elif  check_password_hash(session['setting_password'], new_password):
+        # If the new password is literally the original password
+            flash('Your new password can\'t be the same as your original password, please change your new password', category='error')
+            
+        else:
+        # So old password correct, the two new passwords are the same, and the new is not the old, then it's fine
+        # However the password must be at least 6 characters
+            if len(new_password)<6:
+            # Password too short
+                flash('Password must be at least 6 characters.', category='error')
+                
+            else:
+            # Finally everything is good
+                cursor = get_db().cursor()
+                query = "UPDATE user SET password = ? WHERE id = ?"
+                cursor.execute(query, (generate_password_hash(new_password), session['user_id'],))
+                get_db().commit()
+                flash('Password Changed Successfully', category='success')
+            
+    elif old_password == '':
+    # No input for old password
+        flash('Please enter your old password', category='error')
+        
+    else:
+    # Incorrect old password
+        flash('Incorrect old password, please try again', category='error')
+    return redirect(url_for('views.setting'))
+# Not finished yet, the flash part

@@ -33,7 +33,7 @@
                     <!--session['file_location'] = year +'_'+difficulty
                     session['information'] = name of each images-->
 
-                    <form action="/upload_user_answer", method="post">
+                    <form action="/", method="get">
                 <!--action means do that route, method "post" means update information I think-->
     
     
@@ -153,7 +153,8 @@
                         -->
             </div>
             {% endfor %}
-
+                        <br><br><br>
+                        <input type="submit" value="Back to home" class="btn_style" style="font-size:20pt; margin-left:6%;">
                     </form>
     </div>
     

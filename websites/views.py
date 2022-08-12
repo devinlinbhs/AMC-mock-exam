@@ -164,7 +164,7 @@ def upload_user_answer():
         get_db().commit()
         # Record the score about this completed paper
 
-        return render_template("score.html", run='', score=score)
+        return render_template("score.html", run='', score=score, type="question")
     else:
         return redirect (url_for('auth.login'))
 
@@ -386,6 +386,17 @@ def past_result(table_number):
     return render_template("past_result.html",active="result")
     
     
-@views.route("/completed_paper", methods = ["GET","POST"])
-def completed_paper():
-    return render_template("completed_paper.html")
+@views.route("/setting", methods=["GET","POST"])
+def setting():
+    
+    cursor = get_db().cursor()
+    query = "SELECT account_name, user_name, password FROM user WHERE id = ?"
+    cursor.execute(query,(session['user_id'],))
+    setting_user_information = cursor.fetchall()
+    session['setting_account_name'] = setting_user_information[0][0]
+    session['setting_user_name'] = setting_user_information[0][1]
+    session['setting_password'] = setting_user_information[0][2]
+    
+    return render_template("setting.html", active = 'setting')
+    
+    

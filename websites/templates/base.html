@@ -21,6 +21,7 @@
     <style>
         body {
             position:relative;
+            min-height: 100vh;
         }
     
         body::before{
@@ -103,6 +104,21 @@ body come on top the background
                 </li>
                 {% endif %}
             {% endif %}
+
+            {% if session['login'] %}
+                {% if active == 'setting' %}
+                <!--Check current active website-->
+                <li class="nav-item">
+                    <a class='nav-link active' href="{{url_for('views.setting')}}">Setting</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class='nav-link' href="{{url_for('views.setting')}}">Setting</a>
+                </li>
+                {% endif %}
+            {% endif %}
+
+
 
             {% if session['login'] %}
                 <li class="nav-item">

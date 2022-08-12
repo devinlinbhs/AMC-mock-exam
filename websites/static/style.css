@@ -138,3 +138,21 @@ then the selected radio button will make the label change color*/
 .help:hover .popup{
     opacity: 1;
 }
+
+.help .popup2{
+    width: 220px;
+    background-color: #e5ecf3;
+    position: absolute;
+    border-radius: 10%;
+    opacity: 0;
+    margin-left: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-align: left;
+}
+
+.help:hover .popup2{
+    opacity: 1;
+}
