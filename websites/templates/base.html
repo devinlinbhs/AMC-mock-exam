@@ -17,146 +17,36 @@
 <!--The header-->
 
 
-<body>
-    <style>
-        body {
-            position:relative;
-            min-height: 100vh;
-        }
-    
-        body::before{
-            content: "";
-            background-image: url(/static/home/lockscreen2.jpg);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-    
-            position: absolute;
-            height:auto;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
-            left: 0px;
-            opacity: 0.6;
-        }
-/*body:: before creates a background image on the back which is not going to affect what is in the body
-The main reason to do it, is to seperate the body and the body-background, so changing the opacity of 
-the image will not affect the actual contents
-
-Using position absolute need to set its position, then use position relative to let the contents in 
-body come on top the background
-*/
-    </style>
-    
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light justify-content-end">
-        <!--nav bar, backgroung light-->
-
-        <ul class="nav nav-pills">
-            <!--Simple styling making the active links like boxes-->
-            {% if session['login'] %}
-                {% if active == 'home' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="/">Home</a>
+<body class="body">
+    <nav>
+        <ul class="all_flex">
+            <div class="top_nav1">
+            <li>
+                <a href="{{url_for('views.home')}}"><div class="top_a_text1">HOME</div></a>
+            </li>
+            </div>
+            <div class="top_nav2">
+                <li>
+                    <a href="{{url_for('views.filter_completed_paper')}}">
+                        <div class="top_a_text2">Past Results</div>
+                    </a>
                 </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="/">Home</a>
+                <li>
+                    <a href="{{url_for('views.setting')}}">
+                        <div class="top_a_text2">Setting</div>
+                    </a>
                 </li>
-                {% endif %}
-            {% endif %}
-
-            {% if session['login'] %}
-                {% if active == 'setting_exam' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="{{url_for('views.setting_exam')}}">Past Exam</a>
+                <li>
+                    <a href="{{url_for('auth.logout')}}">
+                        <div class="top_a_text2">Log Out</div>
+                    </a>
                 </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('views.setting_exam')}}">Past Exam</a>
-                </li>
-                {% endif %}
-            {% endif %}
-
-            {% if session['login'] %}
-                {% if active == 'setting_quiz' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="{{url_for('views.setting_quiz')}}">Random Quiz</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('views.setting_quiz')}}">Random Quiz</a>
-                </li>
-                {% endif %}
-            {% endif %}
-
-            {% if session['login'] %}
-                {% if active == 'result' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="{{url_for('views.filter_completed_paper')}}">Past Result</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('views.filter_completed_paper')}}">Past Result</a>
-                </li>
-                {% endif %}
-            {% endif %}
-
-            {% if session['login'] %}
-                {% if active == 'setting' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="{{url_for('views.setting')}}">Setting</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('views.setting')}}">Setting</a>
-                </li>
-                {% endif %}
-            {% endif %}
-
-
-
-            {% if session['login'] %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('auth.logout')}}">Log out</a>
-                </li>
-            {% endif %}
-
-            {% if session['login'] == False %}
-                {% if active == 'login' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="{{url_for('auth.login')}}">Login</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('auth.login')}}">Login</a>
-                </li>
-                {% endif %}
-            {% endif %}
-
-            {% if session['login'] == False %}
-                {% if active == 'sign_up' %}
-                <!--Check current active website-->
-                <li class="nav-item">
-                    <a class='nav-link active' href="{{url_for('auth.sign_up')}}">Sign Up</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class='nav-link' href="{{url_for('auth.sign_up')}}">Sign Up</a>
-                </li>
-                {% endif %}
-            {% endif %}
+            </div>
         </ul>
     </nav>
 
-
     {% with messages = get_flashed_messages(with_categories=true) %}
-        <div style="padding-top:55px;"></div>
+        
         {% if messages %}
             {% for category, message in messages %}
                 {% if category == 'error' %}

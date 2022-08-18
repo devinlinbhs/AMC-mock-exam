@@ -190,4 +190,3 @@ def change_password():
     # Incorrect old password
         flash('Incorrect old password, please try again', category='error')
     return redirect(url_for('views.setting'))
-# Not finished yet, the flash part
