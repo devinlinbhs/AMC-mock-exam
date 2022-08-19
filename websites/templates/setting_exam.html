@@ -7,48 +7,29 @@
 
 
 {% block content %}
-<style>
-    body {
-        height:100vh;
-    }
-    
-</style>
 
-        <div style="height:auto; width:80%; top: 100px; left:10%; position: relative; text-align:center;"> 
-            <form action="/question", method="post" style="position: relative;">
-            <!--I want the Year and Difficulty to be passed onto the question.html
-                Therefore I used the action to pass the variables to route /question in python first
-                position relative so it is on top of the background-image
-            -->
-
-                <label style="font-size:28pt;">Please Select The Year For Your Past Paper</label>
-            <!--To be honest I don't know what this does other than giving me a line of texts-->  
-
-                <select name="year" class="custom-select custom-select-lg mb-3" style="background-color:transparent; border-color:black; color: black;">
-                    <option value="2020">2020-(auto)</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
-                </select>
-            <!--A different kind of "input", this creates a drop down for choosing
-                Note that the name must put into the "select tag" or it wouldn't work
-                background transparent so it doesn't stand out too much
-            -->
-
-                <br><br><br>
-
-                <label style="font-size:28pt;">Please Select The Difficulty For Your Past Paper</label>
-                <select name = "difficulty" class="custom-select custom-select-lg mb-3" style="background-color:transparent; border-color:black; color: black;">
-                    <option value="senior">Senior-(auto)</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="junior">Junior</option>
-                </select>
-                <br><br><br><br><br>
-
-                <input type="submit" value="Let's get started" style="background-color:transparent; border-color:black; font-size:20pt;">
-                <!--value passed to /question route-->
-            </form>
-        </div>
-
+<div class="setting_exam_container1">
+<div class="setting_exam_container2">
+    <form action="/question", method="post" style="position: relative;">
+        <label class="setting_exam_label">Please select the year for your past paper</label>
+        <br>
+        <select name="year" class="setting_exam_select">
+            <option value="2020" style="text-align:center; font-weight:600; font-size:24px;">2020 - (default)</option>
+            <option value="2019" style="text-align:center; font-weight:600; font-size:24px;">2019</option>
+            <option value="2018" style="text-align:center; font-weight:600; font-size:24px;">2018</option>
+            <option value="2017" style="text-align:center; font-weight:600; font-size:24px;">2017</option>
+            <option value="2016" style="text-align:center; font-weight:600; font-size:24px;">2016</option>
+        </select>    
+        <br>
+        <label class="setting_exam_label">Please select the difficulty for your past paper</label>
+        <br>
+        <select name="difficulty" class="setting_exam_select" style="margin-bottom: 100px;">
+            <option value="senior" style="text-align:center; font-weight:600; font-size:24px;">Senior - (default)</option>
+            <option value="intermediate" style="text-align:center; font-weight:600; font-size:24px;">Intermediate</option>
+            <option value="junior" style="text-align:center; font-weight:600; font-size:24px;">Junior</option>
+        </select>
+        <input type="submit" value="Let's get started" class="setting_exam_button">
+    </form>
+</div>
+</div>
 {% endblock %}

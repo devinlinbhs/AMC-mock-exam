@@ -42,6 +42,7 @@ a:hover{
     font-size: 40px;
     transform: scaleY(1.2);
     background-color: #ac8d8a;
+    border-radius: 0px 0px 15px 15px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color:white;
 }
@@ -63,6 +64,44 @@ a:hover{
     transform: scaleX(1.03) scaleY(1.236);
     opacity: 0.7;
     transition: transform 0.4s;
+}
+
+
+.scroll {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    transform-origin: top;
+    background-image: url(/static/home/scroll.png);
+    animation: scroll 3s forwards;
+    top: 0;
+    left: 0;
+}
+
+.scrolling_text{
+    text-align: center;
+    align-items: center;
+    padding-top: 24vh;
+    color:white;
+    font-size:140px; 
+    opacity: 0.7;
+}
+
+@keyframes scroll {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    99.999% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100vh);
+    }
 }
 
 .home_title{
@@ -95,6 +134,9 @@ a:hover{
     transform: translateY(-20px)
 }
 }
+
+
+
 
 
 
@@ -155,16 +197,16 @@ a:hover{
 
 .home_button{
     border: none;
-    border-radius: 8%;
+    border-radius: 10px;
     background-color: #af8b85;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width:80%;
     height: 50px;
     -webkit-box-reflect: below 5px linear-gradient(transparent, rgba(0,0,0,.2));
+    transform: scaleX(0.8);
 
     font-weight: 900;
     font-size: 24px;
-    transform: scaleX(0.8);
     color:#eee9e2;
 }
 
@@ -172,6 +214,67 @@ a:hover{
     transform: scaleX(0.8) translateY(-10px);
     transition: transform 0.2s;
 }
+
+
+.setting_exam_container1{
+    width: 100vw;
+    height: 80vh;
+
+    display: flex;
+}
+
+.setting_exam_container2{
+    width:60vw;
+    margin-left: 20vw;
+
+    height: auto;
+    margin-top: 75px;
+}
+
+.setting_exam_label{
+    font-size: 29px;
+    color:#323a78;
+    margin-bottom: 16px;
+}
+
+
+.setting_exam_select{
+    width:117%;
+    height:88px;
+    text-align: center;
+    background-color: #eae8eb;
+    color:#9c858bfb;
+    font-size: 34px;
+    font-weight: 900;
+    transform: scaleX(0.85) translateX(-8.8%) scaleY(0.87);
+    margin-bottom: 155px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 20px 10px 0 rgb(95, 100, 161, 1);
+}
+
+.setting_exam_button{
+    border: none;
+    border-radius: 10px;
+    background-color: #af8b85;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width:30%;
+    height: 50px;
+    -webkit-box-reflect: below 5px linear-gradient(transparent, rgba(0,0,0,.2));
+    transform: scaleX(0.8);
+
+    font-weight: 900;
+    font-size: 24px;
+    color:#eee9e2;
+    margin-left: 35%;
+}
+
+.setting_exam_button:hover{
+    transform: scaleX(0.8) translateY(-10px);
+    transition: transform 0.2s;
+}
+
+
+
 
 
 

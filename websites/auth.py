@@ -42,6 +42,7 @@ def login():
                         # Showing user is logged in in the backend
 
                         session['user_id'] = user[0][0]
+                        session['user_name'] = user[0][3]
                         return redirect(url_for('views.home'))
                         # Go to home page
                     else:
