@@ -1,89 +1,80 @@
 {% extends 'base.html' %}
+<!--Extend base template-->
+
 
 {% block title %}
-<title>Quiz</title>
+<title>Question</title>
 {% endblock %}
 
 
-
 {% block content %}
-
-
-    <!--Work on the specific width later-->
-    <div class="card offset-sm-1" style="width: 84%; height:auto; display: flex; align-items: center; justify-content: center; background-color:transparent; opacity:0.75;"> 
-    <!--Creating a box
-        Height:full screen
-        Width: 84% of the length
-        The next thing inside the box will be in the center of this box-->
-
-        <br><br><br>
-        {% for i in range(run) %}
-        {% set current_question = i + 1 %}
-        <!--Print the questions 10 or 5 times and count the current question-->
-
-        <div style="height:auto; width:100%; text-align:center;"> 
-            <!--Creating another smaller box
-                I plan to put question image and muti-choice buttons in it
-                This ensure at least the format for the questions are in the middle, with a same size (at least width) every time-->
-                <img src="/static/{{session['file_location_set'][i]}}/{{session['question_set'][i]}}.jpg" class="card-img-top" 
-                id="image{{current_question}}" style="position: relative; padding-top: 100px; padding-bottom:5px;"> <br>
+<!--Question page contents-->
+<div class="question_container">
+<div class="question_layout">
+    {% for i in range(run) %}
+    {% set current_question = i + 1 %}
+        <!--Print the questions 30 times and count the current question-->
+            
+        <div class="question_box">
+            <div class="question_image_box" id="image{{current_question}}">
+            <img src="/static/{{session['file_location_set'][i]}}/{{session['question_set'][i]}}.jpg" 
+            class="question_image" ></div> <br>
                 <!--The link of the image is actually grabbed from the "picture_file" column in the database, which was passed from python
                 The "file_location_set" is passed from python as well by user's filter
                 The class is from bootstrap ensuring the image stay on top and full width in size-->
-                {% set actual_question = i + session['constant'] %}
-                <form action="/upload_user_answer_quiz", method="post">
-            <!--action means do that route, method "post" means update information I think-->
+            <form action="/upload_user_answer_quiz", method="post">
+                <!--action means do that route, method "post" means update information I think-->
 
-
-                <br><br>
+                <!--Buttons groups-->
                 <div class="btn_layout">
-                        
-                    <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a" onclick="myFunction('q{{current_question}}')">
-                    <label class="btn_style" for="answer{{current_question}}a">A</label>
-                    
-                    <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b" onclick="myFunction('q{{current_question}}')">
-                    <label class="btn_style" for="answer{{current_question}}b">B</label>
-                    
-                    <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c" onclick="myFunction('q{{current_question}}')">
-                    <label class="btn_style" for="answer{{current_question}}c">C</label>
-                
-                    <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d" onclick="myFunction('q{{current_question}}')">
-                    <label class="btn_style" for="answer{{current_question}}d">D</label>
-                
-                    <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e" onclick="myFunction('q{{current_question}}')">
-                    <label class="btn_style" for="answer{{current_question}}e">E</label>
+
+                <input type="radio" id="answer{{current_question}}a" name="answer{{current_question}}" value="a" onclick="myFunction('q{{current_question}}')">
+                <label class="btn_style" for="answer{{current_question}}a">A</label>
+
+                <input type="radio" id="answer{{current_question}}b" name="answer{{current_question}}" value="b" onclick="myFunction('q{{current_question}}')">
+                <label class="btn_style" for="answer{{current_question}}b">B</label>
+
+                <input type="radio" id="answer{{current_question}}c" name="answer{{current_question}}" value="c" onclick="myFunction('q{{current_question}}')">
+                <label class="btn_style" for="answer{{current_question}}c">C</label>
+
+                <input type="radio" id="answer{{current_question}}d" name="answer{{current_question}}" value="d" onclick="myFunction('q{{current_question}}')">
+                <label class="btn_style" for="answer{{current_question}}d">D</label>
+
+                <input type="radio" id="answer{{current_question}}e" name="answer{{current_question}}" value="e" onclick="myFunction('q{{current_question}}')">
+                <label class="btn_style" for="answer{{current_question}}e">E</label>
                 </div>
                 <!--type radio is for muti-choice, choosing one in a whole group
                 "name" will be how we are going to recall the variable in python
                 "value" will be the value of the variable "answer"
+                "id" will be how we use {label for} to recognise the specific "invisible" radio button, setting the label checked!
                 Note that the name changes with the for loop
-                    
+
                 Onclick, when the button is clicked, the event: myFunction happens which renders the color of the side-nav
                 -->
-        </div>
-        {% endfor %}
+                </div>
+    {% endfor %}
+
+<br><br><br><br>
+
+<input type="submit" value="End exam" class="end_exam_button">
+<!--Hit submit, the user's choice will be passed to the route /update_user_answer-->
+</form>
+</div>
+</div>
 
 
-                    <br><br><br>
-                    <input type="submit" value="End exam" class="btn_style" style="font-size:20pt; margin-left:6%;">
-                    <!--Hit submit, the user's choice will be passed to the route /update_user_answer-->
-                </form>
-                <script> 
-                    function myFunction(question){
-                    document.getElementById(question).style.backgroundColor = "#007bff";
-                    document.getElementById(question).style.color = "#f1f1f1";
-                    }
-                </script>
-                <!--Get element by id 
-                    get the id from side nav then turn their background color and the text color-->
-    </div>
-
-    <div class="question_sidenav" style="background-color:transparent;">
-        {% for i in range(run) %}
-        {% set current_question = i + 1 %}
-        <a id="q{{current_question}}" href="#image{{current_question}}">Question {{current_question}}</a>
-        {% endfor %}
-    </div>
-    <!--The side-nav with the corresponding id to each button for the javascript to render-->
-    
-    {% endblock %}
+<script> 
+    function myFunction(question){
+        document.getElementById(question).style.color = "#ac8f91";
+    }
+</script>
+<!--Get element by id 
+    get the id from side nav then turn their background color and the text color-->
+<div class="question_sidenav">
+    {% for i in range(run) %}
+    {% set current_question = i + 1 %}
+    <a id="q{{current_question}}" href="#image{{current_question}}">Question {{current_question}}</a>
+    {% endfor %}
+</div>
+<!--The side-nav with the corresponding id to each button for the javascript to render-->
+{% endblock %}

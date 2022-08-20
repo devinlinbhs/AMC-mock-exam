@@ -18,19 +18,30 @@ a:hover{
     display:flex;
 }
 
+.top_nav{
+    width:100%;
+    height: 81.6px;
+}
+
+
 .top_nav1{
     list-style-type: none;
     width: 49%;
     display: flex;
     justify-content: left;
+    position: fixed;
+    z-index: 1;
 }
 
 .top_nav2{
     list-style-type: none;
     width: 50%;
+    margin-left: 46.5%;
     margin-right: 1%;
     display: flex;
     justify-content: right;
+    position: fixed;
+    z-index: 1;
 }
 
 .top_a_text1{
@@ -250,6 +261,14 @@ a:hover{
     margin-bottom: 155px;
     border-radius: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 20px 10px 0 rgb(95, 100, 161, 1);
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url(/static/home/dropdown.png);
+    background-repeat: no-repeat;
+    background-position: right 1em top 50%;
+    background-size: 1em, 100%;
 }
 
 .setting_exam_button{
@@ -274,66 +293,107 @@ a:hover{
 }
 
 
+.question_container{
+    width: 1235px;
+    height: auto;
+    margin-left: 280px;
+}
 
+.question_layout{
+    padding-left: 50px;
+    padding-right: 90px;
+}
 
+.question_box{
+    height:auto; 
+    width:100%; 
+    background-color: transparent;
+}
+
+.question_image_box{
+    width: 100%;
+    padding-top: 60px;
+}
+
+.question_image{
+    width: 100%;
+    border-radius: 20px;
+}
 
 
 
 
 .question_sidenav {
-    width: 8.5%;
-    height: 94%;
-    background-color: #ffffff;
+    width: 280px;
+    height: 100%;
+    background-color: #dbc2be;
     position: fixed;
     bottom: 0;
-    left: 0;
+    padding-top: 82px;
 }
 
-
 .question_sidenav a {
-    padding-left: 5.9%;
+    padding-left: 70px;
     display: block;
     color: white;
     text-decoration: none;
+    font-size: 21px;
     font-weight: bold;
-    padding-bottom: 3%;
 }
-
 
 .question_sidenav a:hover {
-    color: #007bff;
+    color: #6a72b0;
 }
 
-
 .question_sidenav a:active {
-    background-color: #007bff;
+    background-color: #6a72b0;
+    border-radius: 5px;
     color: #f1f1f1;
 }
 
 
+.end_exam_button{
+    border: none;
+    border-radius: 10px;
+    background-color: #af8b85;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width:20%;
+    height: 70px;
+    -webkit-box-reflect: below 5px linear-gradient(transparent, rgba(0,0,0,.2));
+    transform: scaleX(0.8);
 
+    font-weight: 900;
+    font-size: 24px;
+    color:#eee9e2;
+    margin-left: 40%;
+    margin-bottom: 3%;
+}
 
-/* CSS */
+.end_exam_button:hover{
+    transform: scaleX(0.8) translateY(-10px);
+    transition: transform 0.2s;
+}
+
 
 .btn_layout {
     display: flex;
     justify-content: space-evenly;
+    padding-top: 30px;
 }
-
 
 /* styling for muti-choice buttons */
 .btn_style {
     align-items: center;
     appearance: none;
     background-color: #FCFCFD;
-    border-radius: 4px;
+    border-radius: 10px;
     border-width: 0;
     box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
     box-sizing: border-box;
-    color: #36395A;
+    color: #ac8f91;
     cursor: pointer;
     display: inline-flex;
-    font-family: "JetBrains Mono", monospace;
+    font-family:'Candal', monospace;
     height: 80px;
     justify-content: center;
     line-height: 1;
@@ -351,6 +411,7 @@ a:hover{
     white-space: nowrap;
     will-change: box-shadow, transform;
     font-size: 40px;
+    font-weight: 900;
 }
 
 /* minimize browswer radio button i.e. make it gone */
@@ -359,28 +420,30 @@ a:hover{
     width: 0px;
 }
 
-
 /* This changes the checked color of the label */
 .btn_layout input[type="radio"]:checked+label {
-    background-color: #007bff;
-    box-shadow: #3d73de 3px 3px 7px;
-    color:#f1f1f1;
+    background-color: #ac8f91;
+    box-shadow: #685b5c 3px 3px 7px;
+    color:#FCFCFD;
 }
 /*So you click at the button (label), label for allows the radio button to be selected, 
 then the selected radio button will make the label change color*/
 
-
-
 .btn_style:hover {
-    box-shadow: rgba(4, 80, 244, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    box-shadow: rgba(107, 86, 86, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
     transform: translateY(-10px);
 }
 
 .btn_style:active {
-    background-color: #2e6be3;
+    background-color: #ac8f91;
     box-shadow: #a6a9a6 3px 3px 7px;
     color:#f1f1f1;
     transform: translateY(2px);
+}
+
+.score_text{
+    font-weight: 900;
+    font-size: 40px;
 }
 
 
