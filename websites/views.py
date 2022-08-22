@@ -12,10 +12,10 @@ def home():
             return render_template("home.html", active='home')
             # if user logged in, go to home page
         else:
-            return redirect (url_for('auth.login'))
+            return render_template("intro.html", active='home')
         # else go to login page
     except KeyError:
-        return redirect (url_for('auth.login'))
+        return render_template("intro.html", active='home')
         
 
 
@@ -299,104 +299,126 @@ def upload_user_answer_quiz():
     
 @views.route("/filter_completed_paper", methods = ["GET","POST"])
 def filter_completed_paper():
-    session['completed'] = []
-    session['highest_score'] = []
-    session['name_of_paper_list'] = []
-    # Completed will store the name of the paper completed
-    # Highest_score will store the highest store of that paper completed
-    # Name of past paper list store the year and difficulty of those papers
-    
-    cursor = get_db().cursor()
-    query = "SELECT DISTINCT past_paper_id FROM completed_paper WHERE user_id = ? ORDER BY past_paper_id DESC"
-    cursor.execute(query,(session['user_id'],))
-    # session['user_id'] is defined when the user is logged in and stored as his id
-    session['amount_of_different_paper'] = cursor.fetchall()
-    # Select the different paper done by the CURRENT user, with the past paper id
-    
-    
-    for i in range(len(session['amount_of_different_paper'])):
-        # Run the loop the amount of time that the amount of different past paper the user done
-        query = "SELECT year, difficulty FROM past_paper WHERE id = ?"
-        cursor.execute(query,(session['amount_of_different_paper'][i][0],))
-        # amount_of_past_paper[i][0] correspond with the 'past_paper_id' in completed paper table thus the 'id' in past paper table
+    if session['login']:
+        session['completed'] = []
+        session['highest_score'] = []
+        session['name_of_paper_list'] = []
+        session['number_of_completion_list'] = []
+        session['total_completed'] = 0
+        # Completed will store the name of the paper completed
+        # Highest_score will store the highest store of that paper completed
+        # Name of past paper list stores the year and difficulty of those papers
+        # Number_of_completion_list stores the completion times of a paper
+        # Total_completed is the amount of paper in total that the user has done
         
-        name_of_paper = cursor.fetchall()
-        session['name_of_paper_list'].append(name_of_paper)
-        
-        query = "SELECT COUNT(past_paper_id) FROM completed_paper WHERE past_paper_id = ? AND user_id = ?"
-        cursor.execute(query,(session['amount_of_different_paper'][i][0], session['user_id']))
-        number_of_time_completed = cursor.fetchall()[0][0]
-        # number_of_time_completed = the number of time completed on that paper
-        
-        actual_paper = f"AMC {session['name_of_paper_list'][i][0][0]} {session['name_of_paper_list'][i][0][1]} (completed {number_of_time_completed} times)"
-        # session['name_of_paper_list'][i][0][0] = year, session['name_of_paper_list'][i][0][1] = difficulty 
-        
-        
-        session['completed'].append(actual_paper)
-        # Add the information into the list and will be used in the filter page to display
-        
-        
-        
-        
-        query = "SELECT MAX(score) FROM completed_paper WHERE past_paper_id = ? AND user_id = ? ORDER BY past_paper_id DESC"
-        cursor.execute(query,(session['amount_of_different_paper'][i][0], session['user_id']))
-        # Select only the top score in -->  session['amount_of_different_paper'][i][0] = past_paper_id
-        # Basically the top score in each past paper completed
-        
-        # Thus if the user completed past_paper_id:15 for 3 times, we only show the highest score 
+        cursor = get_db().cursor()
+        query = "SELECT DISTINCT past_paper_id FROM completed_paper WHERE user_id = ? ORDER BY past_paper_id DESC"
+        cursor.execute(query,(session['user_id'],))
         # session['user_id'] is defined when the user is logged in and stored as his id
-        highest_score = cursor.fetchall()[0][0]
-        # The highest score that the user completed 
+        session['amount_of_different_paper'] = cursor.fetchall()
+        # Select the different paper done by the CURRENT user, with the past paper id
         
-        session['highest_score'].append(highest_score)
-        # Add them all into a list and display them in front of the user in filter_completed_paper.html
         
-    return render_template("filter_completed_paper.html", number_of_completed = len(session['completed']), 
-        active="result")
+        for i in range(len(session['amount_of_different_paper'])):
+            # Run the loop the amount of time that the amount of different past paper the user done
+            query = "SELECT year, difficulty FROM past_paper WHERE id = ?"
+            cursor.execute(query,(session['amount_of_different_paper'][i][0],))
+            # amount_of_past_paper[i][0] correspond with the 'past_paper_id' in completed paper table thus the 'id' in past paper table
+            
+            name_of_paper = cursor.fetchall()
+            session['name_of_paper_list'].append(name_of_paper)
+            
+            query = "SELECT COUNT(past_paper_id) FROM completed_paper WHERE past_paper_id = ? AND user_id = ?"
+            cursor.execute(query,(session['amount_of_different_paper'][i][0], session['user_id']))
+            session['number_of_completion_list'].append(cursor.fetchall()[0][0])
+            # number_of_time_completed = the number of time completed on that paper
+            
+            actual_paper = f"{session['name_of_paper_list'][i][0][0]} {session['name_of_paper_list'][i][0][1]}"
+            # session['name_of_paper_list'][i][0][0] = year, session['name_of_paper_list'][i][0][1] = difficulty 
+            
+            
+            
+            
+            session['completed'].append(actual_paper)
+            # Add the information into the list and will be used in the filter page to display
+            
+            
+            
+            
+            query = "SELECT MAX(score) FROM completed_paper WHERE past_paper_id = ? AND user_id = ? ORDER BY past_paper_id DESC"
+            cursor.execute(query,(session['amount_of_different_paper'][i][0], session['user_id']))
+            # Select only the top score in -->  session['amount_of_different_paper'][i][0] = past_paper_id
+            # Basically the top score in each past paper completed
+            
+            # Thus if the user completed past_paper_id:15 for 3 times, we only show the highest score 
+            # session['user_id'] is defined when the user is logged in and stored as his id
+            highest_score = cursor.fetchall()[0][0]
+            # The highest score that the user completed 
+            
+            session['highest_score'].append(highest_score)
+            # Add them all into a list and display them in front of the user in filter_completed_paper.html
+        number_of_completed = len(session['completed'])
+        for i in range(number_of_completed):
+            session['total_completed'] += session['number_of_completion_list'][i]
+        if len(session['amount_of_different_paper']) == 0:
+            user_highest = 0
+            user_highest_index = None
+        else:
+            user_highest = max(session['highest_score'])
+            user_highest_index = session['highest_score'].index(user_highest)
+        
+        
+        return render_template("filter_completed_paper.html", number_of_completed = number_of_completed, 
+            user_highest = user_highest, user_highest_index = user_highest_index)
+    else:
+        return redirect (url_for('auth.login'))
     
 @views.route("/past_result/<int:table_number>", methods = ["GET","POST"])
 def past_result(table_number):
-    cursor = get_db().cursor()
-    # session['name_of_paper_list'][i][0][0] = year, session['name_of_paper_list'][i][0][1] = difficulty
-    # session['highest_score'][i] = highest score of that 'year','difficulty','user'
-    # session['amount_of_different_paper'][i][0] = past_paper_id
-    
-    session['file_location'] = str(session['name_of_paper_list'][table_number][0][0]) +'_'+session['name_of_paper_list'][table_number][0][1]
-    # File location defined by using the link that the user has clicked in the filter page
-    
-    query = "SELECT picture_file FROM question WHERE past_paper_id = ?"
-    cursor.execute(query,(session['amount_of_different_paper'][table_number][0],))
-    # recall session['amount_of_different_paper'][i][0] = past_paper_id
-    session['information'] = cursor.fetchall()
-    # Get the images of the questions for the specific question
-    
-    query = "SELECT id, score FROM completed_paper WHERE user_id = ? AND past_paper_id = ? AND score = ?"
-    cursor.execute(query,(session['user_id'], session['amount_of_different_paper'][table_number][0],
-                    session['highest_score'][table_number]))
-    session['completed_paper_id'] = cursor.fetchall()
-    # session['completed_paper_id'][0][0] = 'id' of the specific 'user' + 'completed_paper' + 'highest score'
-    # session['completed_paper_id'][0][1] = 'score' of that paper
-    
-    query = "SELECT answer, user_choice FROM stored_answer WHERE completed_paper_id = ?"
-    cursor.execute(query,(session['completed_paper_id'][0][0],))
-    session['marking_scheme'] = cursor.fetchall()
-    # Get the user answer about the highest score paper
-    
-    
-    return render_template("past_result.html",active="result")
-    
+    if session['login']:
+        cursor = get_db().cursor()
+        # session['name_of_paper_list'][i][0][0] = year, session['name_of_paper_list'][i][0][1] = difficulty
+        # session['highest_score'][i] = highest score of that 'year','difficulty','user'
+        # session['amount_of_different_paper'][i][0] = past_paper_id
+        
+        session['file_location'] = str(session['name_of_paper_list'][table_number][0][0]) +'_'+session['name_of_paper_list'][table_number][0][1]
+        # File location defined by using the link that the user has clicked in the filter page
+        
+        query = "SELECT picture_file FROM question WHERE past_paper_id = ?"
+        cursor.execute(query,(session['amount_of_different_paper'][table_number][0],))
+        # recall session['amount_of_different_paper'][i][0] = past_paper_id
+        session['information'] = cursor.fetchall()
+        # Get the images of the questions for the specific question
+        
+        query = "SELECT id, score FROM completed_paper WHERE user_id = ? AND past_paper_id = ? AND score = ?"
+        cursor.execute(query,(session['user_id'], session['amount_of_different_paper'][table_number][0],
+                        session['highest_score'][table_number]))
+        session['completed_paper_id'] = cursor.fetchall()
+        # session['completed_paper_id'][0][0] = 'id' of the specific 'user' + 'completed_paper' + 'highest score'
+        # session['completed_paper_id'][0][1] = 'score' of that paper
+        
+        query = "SELECT answer, user_choice FROM stored_answer WHERE completed_paper_id = ?"
+        cursor.execute(query,(session['completed_paper_id'][0][0],))
+        session['marking_scheme'] = cursor.fetchall()
+        # Get the user answer about the highest score paper
+        
+        
+        return render_template("past_result.html",active="result")
+    else:
+        return redirect (url_for('auth.login'))
     
 @views.route("/setting", methods=["GET","POST"])
 def setting():
-    
-    cursor = get_db().cursor()
-    query = "SELECT account_name, user_name, password FROM user WHERE id = ?"
-    cursor.execute(query,(session['user_id'],))
-    setting_user_information = cursor.fetchall()
-    session['setting_account_name'] = setting_user_information[0][0]
-    session['setting_user_name'] = setting_user_information[0][1]
-    session['setting_password'] = setting_user_information[0][2]
-    
-    return render_template("setting.html", active = 'setting')
-    
+    if session['login']:
+        cursor = get_db().cursor()
+        query = "SELECT account_name, user_name, password FROM user WHERE id = ?"
+        cursor.execute(query,(session['user_id'],))
+        setting_user_information = cursor.fetchall()
+        session['setting_account_name'] = setting_user_information[0][0]
+        session['setting_user_name'] = setting_user_information[0][1]
+        session['setting_password'] = setting_user_information[0][2]
+        
+        return render_template("setting.html", active = 'setting')
+    else:
+        return redirect (url_for('auth.login'))
     

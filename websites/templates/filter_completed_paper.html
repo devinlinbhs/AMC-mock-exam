@@ -7,52 +7,112 @@
 
 
 {% block content %}
-<style>
-    body {
-        height: auto;
-        min-height: 100vh;
-    }
-</style>
+<!--session['number_of_completion_list'][i] is the number of completion in a paper-->
+<!--number_of_completed is how many papers the user has done-->
 
-        <div style="height:auto; width:80%; left:10%; position: relative; text-align:center;"> 
-            <br><br><h1>Click the name of the paper to view your past result</h1><br>
-            
-            
-            <table class="table table-bordered" style="background-color:#FFFFFF; opacity: 0.75;">
-            <!--Bootstrap class that has border-->
-                <tbody>
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Past Paper</th>
-                            <th scope="col">Highest Score</th>
-                        </tr>
-                    </thead>
-                    <!--Putting 3 columns at the top to begin-->
-                    {% if number_of_completed == 0 %}
-                        <tr>
-                            <th scope="row">none</th>
-                            <td>You haven't completed any paper yet!</td>
-                            <td>none</td>
-                        </tr>
-                    <!--Tell the user to do at least 1 paper-->
 
-                    {% else %}
-                    {% for i in range(number_of_completed) %}
-                        <tr>
-                            <th scope="row">{{i+1}}</th>
-                            <td><a class='nav-link' href="past_result/{{i}}">{{session['completed'][i]}}</a></td>
-                            <td>{{session['highest_score'][i]}}/95
-                            </td>
-                        </tr>
-                    <!--Display all the papers that the user has done-->
-                    {% endfor %}
-                    {% endif %}
-                    
+<div class="all_flex">
+<div class="completed_paper_container1">
+    <div class="completed_paper_container3">
 
-                </tbody>
-            </table>
+        <div class="completed_paper_container5">
+            <div class="completed_paper_text1">Hi, {{session['user_name']}}</div>
         </div>
-        <br>
 
+        <div class="completed_paper_container6">
+            <div class="completed_paper_text2">
+                
+                {% if number_of_completed == 0 %}
+                    You haven't completed any paper yet,<br>
+                    how about get some papers done?
+                {% else %}
+                    Overall you have completed past papers for
+                    <b>{{session['total_completed']}}</b> times.
+                    <br>
+                    Your highest score is <b>{{user_highest}}</b> in the <br>
+                    <b>{{session['completed'][user_highest_index]}}</b> paper.
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="completed_paper_container4">
+        <div class="completed_paper_container7">
+            {% if number_of_completed == 0 %}
+                <div class="completed_paper_text2" style="padding-top:4px; margin-left:-7%;">
+                    Past papers are in the <b>HOME</b> page.
+                </div>
+            {% else %}
+                <div class="completed_paper_text2" style="padding-top:4px; margin-left:0%;">
+                    This paper is completed <b>{{session['number_of_completion_list'][user_highest_index]}}</b> times.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+</div>
+<div class="completed_paper_container2"> 
+    <div style="margin:10px;"></div>
+    <table class="completed_table">
+        <tbody>
+            <thead>
+                <tr>
+                    <th class="completed_th">No. of Completions</th>
+                    <th class="completed_th_link">Past Paper Name</th>
+                    <th class="completed_th">Highest Score</th>
+                </tr>
+            </thead>
+            <!--Putting 3 columns at the top to begin-->
+
+            {% if number_of_completed == 0 %}
+                <tr>
+                    <td class="completed_td">none</td>
+                    <td class="completed_td">You haven't completed any paper yet!</td>
+                    <td class="completed_td">none</td>
+                </tr>
+            <!--Tell the user to do at least 1 paper-->
+            {% for i in range(8) %}
+                <tr>
+                    <td class="completed_td">none</td>
+                    <td class="completed_td_link">none</td>
+                    <td class="completed_td">none</td>
+                </tr>
+                <!--Fill out the empty space-->
+            {% endfor %}
+
+            {% elif number_of_completed < 9 %}
+            {% for i in range(number_of_completed) %}
+            <tr>
+                <td class="completed_td">{{session['number_of_completion_list'][i]}}</td>
+                <td class="completed_td_link"><a href="past_result/{{i}}">AMC {{session['completed'][i]}}</a></td>
+                <td class="completed_td">{{session['highest_score'][i]}}/95</td>
+            </tr>
+            <!--Display normally-->
+            {% endfor %}
+            {% for i in range(9-number_of_completed) %}
+            <tr>
+                <td class="completed_td">none</td>
+                <td class="completed_td_link">none</td>
+                <td class="completed_td">none</td>
+            </tr>
+            <!--Fill out the empty space-->
+            {% endfor %}
+
+            {% else %}
+            {% for i in range(number_of_completed) %}
+                <tr>
+                    <td class="completed_td">{{session['number_of_completion_list'][i]}}</td>
+                    <td class="completed_td_link"><a href="past_result/{{i}}">{{session['completed'][i]}}</a></td>
+                    <td class="completed_td">{{session['highest_score'][i]}}/95
+                    </td>
+                </tr>
+            <!--Display all the papers that the user has done-->
+            {% endfor %}
+            
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<br>
+</div>
 {% endblock %}

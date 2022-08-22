@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
+{% block content %}
+<div class="all_flex">
+    <div class="scroll"><div class="scrolling_text">You are currently logged out</div></div>
+    <div class="waviy">
+    <div class="home_title">
+        <span style="--i:1">A</span>
+        <span style="--i:2">U</span>
+        <span style="--i:3">S</span>
+        <span style="--i:4">T</span>
+        <span style="--i:5">R</span>
+        <span style="--i:6">A</span>
+        <span style="--i:7">L</span>
+        <span style="--i:8">I</span>
+        <span style="--i:9">A</span>
+        <span style="--i:10">N</span>
+        <br>
+        <span style="--i:11">M</span>
+        <span style="--i:12">A</span>
+        <span style="--i:13">T</span>
+        <span style="--i:14">H</span>
+        <span style="--i:15">E</span>
+        <span style="--i:16">M</span>
+        <span style="--i:17">A</span>
+        <span style="--i:18">T</span>
+        <span style="--i:19">I</span>
+        <span style="--i:20">C</span>
+        <span style="--i:21">S</span>
+        <br>
+        <span style="--i:22">C</span>
+        <span style="--i:23">O</span>
+        <span style="--i:24">M</span>
+        <span style="--i:25">P</span>
+        <span style="--i:26">E</span>
+        <span style="--i:27">T</span>
+        <span style="--i:28">I</span>
+        <span style="--i:29">T</span>
+        <span style="--i:30">I</span>
+        <span style="--i:31">O</span>
+        <span style="--i:32">N</span>
+    </div>
+    </div>
+    <div class="home_container1">
+
+        <div class="intro_container2">
+        <div class="home_container3">
+            <img src="/static/home/function_1.jpg" class="intro_image">
+            
+            <div class="home_subtitle">FULL past papers in exam condition</div>
+            <div class="home_text">
+            Past papers difficulties involving: Junior, Intermediate, Senior<br>
+            Past papers years from: 2016 ~ 2020
+            </div>
+            
+            <div class="home_text">
+            Only involving Q1~Q25<br>(Excluding Q26~Q30 due to their difficulties)
+            </div>
+            <form action="{{url_for('views.setting_exam')}}", method="get">
+            <input type="submit" class="intro_button" value="Sign up/Login to get Started">
+            </form>
+        </div>
+        </div>
+
+        <div class="intro_container2">
+        <div class="home_container3">
+            <img src="/static/home/function_2.jpg" class="intro_image">
+
+            <div class="home_subtitle">Random quizzes in past papers</div>
+            <div class="home_text">
+            Solve the random set of questions with the shortest time and highest accuracy.
+            </div>
+
+            <div class="home_text">
+            Available difficulties: Junior, Intermediate, Senior<br>
+            Available question sets: Q1~Q10, Q11~Q20, Q21~Q25
+            </div>
+            <form action="{{url_for('views.setting_quiz')}}", method="get">
+            <input type="submit" class="intro_button" value="Sign up/Login to get Started">
+            </form>
+        </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

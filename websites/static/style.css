@@ -111,7 +111,7 @@ a:hover{
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-100vh);
+        transform: translateY(-10000vh);
     }
 }
 
@@ -444,6 +444,191 @@ then the selected radio button will make the label change color*/
 .score_text{
     font-weight: 900;
     font-size: 40px;
+}
+
+
+
+.completed_paper_container1{
+    width:36%;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+}
+
+.completed_paper_container2{
+    width: 60%;
+    margin-left: 38%;
+    min-height:750px;
+    margin-top: 3vh;
+    background-color: #ffffff;
+    border-radius: 40px;
+    opacity: 0.9;
+}
+
+.completed_paper_container3{
+    width:29vw;
+    margin-left: 3.5vw;
+    height: 50.2vh;
+    margin-top: 8.2vh;
+    background-color: #ffffff;
+    opacity: 0.9;
+    border-radius: 20px;
+}
+
+.completed_paper_container4{
+    width: 29vw;
+    height: 15vh;
+    margin-left: 3.5vw;
+    margin-top: 4vh;
+    background-color: #ffffff;
+    border-radius: 20px;
+}
+
+.completed_paper_container5{
+    width:92%;
+    margin-left: -1%;
+    height: 31%;
+    padding-top:6%;
+}
+
+.completed_paper_container6{
+    width:92%;
+    height: 65%;
+    margin-left: 4%;
+    border: 4px dashed #b29d9f;
+    border-radius: 20px;
+}
+
+.completed_paper_container7{
+    width:92%;
+    height: 10.984vh;
+    margin-left: 4%;
+    position: relative;
+    top: 2.008vh;
+    border: 4px dashed #b29d9f;
+    border-radius: 20px;
+}
+
+
+.completed_paper_text1{
+    font-size: 44px;
+    color:#6661a0;
+    transform: scaleX(0.85);
+}
+
+.completed_paper_text2{
+    width: 120%;
+    transform: scaleX(0.85);
+    margin-left: -6%;
+    padding-top: 12px;
+
+    font-size: 22px;
+    color: #978184;
+}
+
+.completed_paper_text2 b{
+    font-size: 44px;
+    color:#6661a0;
+}
+
+.completed_table{
+    width:115%;
+    font-size: 24px;
+    text-align: center;
+    transform: scaleX(0.85) translateX(-83px);
+    color:#6661a0;
+
+    border-collapse: separate;
+    border-spacing: 24px 8px; 
+}
+
+.completed_table tr{
+    height:64px;
+}
+
+.completed_th{
+    background-color: #dcc4c0;
+    border-radius: 20px;
+}
+
+.completed_th_link{
+    background-color: #dcc4c0;
+    border-radius: 20px;
+}
+
+.completed_th_link:hover{
+    transform: scale(1.03);
+    transition: transform 0.4s;
+}
+
+.completed_td{
+    background-color: #aeb2d5;
+    border-radius: 20px;
+}
+
+.completed_td_link{
+    background-color: #aeb2d5;
+    border-radius: 20px;
+}
+
+.completed_td_link a{
+    text-decoration: underline;
+    padding-inline: 18px;
+    color:#6661a0;
+}
+
+.completed_td_link:hover{
+    transform: scale(1.03);
+    transition: transform 0.4s;
+}
+
+.completed_td_link a:hover{
+    transform: scale(1.03);
+    transition: transform 0.4s;
+    color: #5c50e5;
+}
+
+
+
+
+
+
+
+
+/*Intro page styling will be similar to home, but with slight variation, such as no hovering effects of 
+pictures, containers*/
+
+.intro_container2{
+    width: 24vw;
+    height: 62vh;
+    border-radius: 5%;
+    background-color: #ffffffa0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.intro_image{
+    width:100%;
+    border-radius: 5%;
+}
+
+.intro_button{
+    border: none;
+    border-radius: 10px;
+    background-color: #af8b85;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width:110%;
+    height: 50px;
+    -webkit-box-reflect: below 5px linear-gradient(transparent, rgba(0,0,0,.2));
+    transform: scaleX(0.8) translateX(-5%);
+
+    font-weight: 900;
+    font-size: 22px;
+    color:#eee9e2;
+}
+
+.intro_button:hover{
+    transform: scaleX(0.8) translateY(-10px) translateX(-5%);
+    transition: transform 0.2s;
 }
 
 

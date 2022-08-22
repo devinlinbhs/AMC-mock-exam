@@ -26,6 +26,7 @@
             </li>
             </div>
             <div class="top_nav2">
+                {% if session['login'] %}
                 <li>
                     <a href="{{url_for('views.filter_completed_paper')}}">
                         <div class="top_a_text2">Past Results</div>
@@ -41,6 +42,12 @@
                         <div class="top_a_text2">Log Out</div>
                     </a>
                 </li>
+                {% endif %}
+                {% if session['login'] == False %}
+                <li>
+                    <a href="{{url_for('auth.login')}}"><div class="top_a_text2">Sign Up/Login</div></a>
+                </li>
+                {% endif %}
             </div>
         </ul>
     </nav>

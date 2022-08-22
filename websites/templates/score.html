@@ -14,9 +14,9 @@
 
     {% if type == "quiz_5" or type == "quiz_10" %}
         {% if type == "quiz_5" %}
-            <h2>You scored {{score}} out of 5</h2>
+            <div class="score_text">You scored {{score}} out of 5</div>
         {% else %}
-            <h2>You scored {{score}} out of 10</h2>
+        <div class="score_text">You scored {{score}} out of 10</div>
         {% endif %}
         {% for i in range(run) %}
         {% set current_question = i + 1 %}

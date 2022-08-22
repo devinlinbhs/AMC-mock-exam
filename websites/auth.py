@@ -64,7 +64,7 @@ def login():
 def logout():
     session['login'] = False
     # Now the user is logged out
-    return redirect(url_for('auth.login'))
+    return render_template("intro.html")
     # Go to log in page
 
 @auth.route('/sign_up', methods=['POST', 'GET'])
@@ -115,7 +115,7 @@ def sign_up():
                 #Add user to database
                 return redirect(url_for('auth.add'))
 
-        return render_template('sign_up.html', active = 'sign_up')
+        return render_template('login.html')
         # If account is not created, i.e. failed to create one, then keep them on sign_up page
     else:
         return redirect(url_for('views.home'))
