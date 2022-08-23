@@ -12,11 +12,14 @@ auth = Blueprint('auth', __name__)
 def login():
     try:
         if session['login'] == False:
+            session['login_error']= None
+            session['sign_up_error']= None
         # So only can go to this route if user isn't logged in
             if request.method == 'POST':
                 # Only when user is submitting data
                 
-                account_name = request.form.get('account_name')
+                
+                account_name = request.form.get('account_name_1')
                 password = request.form.get('password')
                 # Get users' input
                 
@@ -34,25 +37,24 @@ def login():
                     if check_password_hash(user[0][2], password):
                     # If the password entered then hashed is equal to the hashed password stored, 
                     # then the password is correct
-                    
-                        flash('Logged in successfully!', category='success')
-                        # Flash a green reminder
+
                         
                         session['login'] = True
                         # Showing user is logged in in the backend
 
                         session['user_id'] = user[0][0]
                         session['user_name'] = user[0][3]
+                        session['error']= None
                         return redirect(url_for('views.home'))
                         # Go to home page
                     else:
-                        flash('Incorrect password, try again.', category='error')
-                        # Hashed passwords are not the same, flash error message
+                        session['login_error']='Incorrect password, try again.'
+                        # Hashed passwords are not the same, give error messages
                 else:
-                    flash('Account Name doesn\'t exist, try again.', category='error')
+                    session['login_error']='Account Name doesn\'t exist, try again.'
                     # If there is no information, then there is no such a user
                 
-            return render_template('login.html', active = 'login')
+            return render_template('login.html')
             # After all, user didn't logged in, so display login.html
         else:
             return redirect(url_for('views.home'))
@@ -70,6 +72,7 @@ def logout():
 @auth.route('/sign_up', methods=['POST', 'GET'])
 def sign_up():
     if session['login'] == False:
+        
     # Only allow registering while user is logged out
         if request.method == 'POST':
             account_name = request.form.get('account_name')
@@ -87,31 +90,30 @@ def sign_up():
             
             if user:
             # If user already exist, then don't register for a new account
-                flash('Account Name already exist, please use a different Account Name', category='error')
+                session['sign_up_error'] = 'Account Name already exist, please use a different Account Name'
                 
             elif len(account_name) < 6:
             # Account name too short
-                flash('Account name must be at least 6 characters.', category='error')
+                session['sign_up_error'] = 'Account name must be at least 6 characters.'
             
             elif len(user_name)<2:
             # Nickname too short
-                flash('Account name must be at least 2 characters.', category='error')
+                session['sign_up_error'] = 'User name must be at least 2 characters.'
                 
             elif password1 != password2:
             # Passwords aren't even matching
-                flash('Password don\'t match.', category='error')
+                session['sign_up_error'] = 'Password don\'t match.'
                 
             elif len(password1)<6:
             # Password too short
-                flash('Password must be at least 6 characters.', category='error')
+                session['sign_up_error'] = 'Password must be at least 6 characters.'
                 
             else:
                 session['account_name'] = account_name
                 session['user_name'] = user_name
                 session['password1'] = password1
                 # Session them so I can pass the data down to the next route
-                
-                flash('Account created!', category='success')
+
                 #Add user to database
                 return redirect(url_for('auth.add'))
 
