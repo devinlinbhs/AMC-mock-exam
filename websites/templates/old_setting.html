@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+<!--Extend base template-->
+
+
+{% block title %}
+<title>Setting</title>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="setting_format" style="position:relative;">
+    <div style="text-align: center;">
+    <h1 style="padding-top:50px; padding-bottom:50px;">Setting</h1>
+    <h2>Your Information</h2>
+    <h4><div style="display:flex;">
+        <div style="width:50vw; text-align:right; padding-right:0.5vw;">
+            Account Name:
+        </div>
+        <div style="text-align:left; padding-left:0.5vw;">
+            {{session['setting_account_name']}}
+        </div>
+    </div>
+    <div style="display:flex;">
+        <div style="width:50vw; text-align:right; padding-right:0.5vw;">
+            User Name:
+        </div>
+        <div style="text-align:left; padding-left:0.5vw;">
+            {{session['setting_user_name']}}
+        </div>
+    </div>
+
+    </h4>
+
+    <h2 style="padding-top:50px;">Change Password</h2>
+    <form action="/change_password" method="POST">
+    <h4><div style="display:flex;">
+        <div style="width:45vw; text-align:right; padding-right:0.5vw;">
+            <label for="old_password">Old Password:</label>
+        </div>
+        <div style="text-align:left; padding-left:0.5vw; display:flex;">
+            <input type="password" id="old_password" name="old_password" placeholder="Enter old password">
+            <!--id means the label is refering to this input
+            name is important as it is what is passed to the backend-->
+            <div class="help">
+                <div class="icon">?</div>
+                <div class="popup2">Please enter your old password, must be at least 6 characters</div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="display:flex;">
+        <div style="width:45vw; text-align:right; padding-right:0.5vw;">
+            <label for="new_password">New Password:</label>
+        </div>
+        <div style="text-align:left; padding-left:0.5vw; display:flex;">
+            <input type="password" id="new_password" name="new_password" placeholder="Enter new password">
+            <!--id means the label is refering to this input
+            name is important as it is what is passed to the backend-->
+            <div class="help">
+                <div class="icon">?</div>
+                <div class="popup2">Please enter your new password, must be at least 6 characters</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;">
+        <div style="width:45vw; text-align:right; padding-right:0.5vw;">
+            <label for="confirm_new_password">Confirm New Password:</label>
+        </div>
+        <div style="text-align:left; padding-left:0.5vw; display:flex;">
+            <input type="password" id="confirm_new_password" name="confirm_new_password" placeholder="Confirm new password">
+            <!--id means the label is refering to this input
+            name is important as it is what is passed to the backend-->
+            <div class="help">
+                <div class="icon">?</div>
+                <div class="popup2">Please confirm your new password</div>
+            </div>
+        </div>
+    </div>
+    </h4>
+    <button type="submit" class="btn btn-primary" style="margin-top:50px;">Change password</button>
+
+    </form>
+</div>
+{% endblock %}

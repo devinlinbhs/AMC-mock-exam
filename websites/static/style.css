@@ -736,3 +736,100 @@ pictures, containers*/
     margin-top: -1%;
     margin-bottom: 1%;
 }
+
+
+
+
+/*This is displaying the information container*/
+.setting_container1{
+    width: 32.4vw;
+    height: 52.3vh;
+    background-color: #ffffff;
+    opacity: 0.9;
+    border-radius: 5%;
+    margin-right: -2.6%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.setting_container2{
+    width:92%;
+    margin-left: -1%;
+    height: 30%;
+    padding-top:6%;
+}
+
+.setting_container3{
+    width:90%;
+    height: 65%;
+    margin-left: 5%;
+    border: 4px dashed #c9b7bb;
+    border-radius: 20px;
+}
+
+.setting_text1{
+    font-size: 44px;
+    color: #a48689;
+    transform: scaleX(0.85);
+}
+
+.setting_text2{
+    width: 120%;
+    transform: scaleX(0.85);
+    margin-left: -6%;
+    padding-top: 12px;
+
+    font-size: 28px;
+    color: #a48689;
+    margin-top: 10%;
+}
+
+.setting_text2 b{
+    opacity: 0.9;
+    color:#6661a0;
+}
+
+.setting_message1{
+    text-align: center;
+    color: #487e02;
+    font-size: 21px; 
+    margin-top: 9.5%;
+    margin-bottom: 4%;
+}
+
+.setting_message2{
+    text-align: center;
+    color: #c35d6c;
+    font-size: 21px; 
+    margin-top: 9.5%;
+    margin-bottom: 4%;
+}
+
+.setting_message3{
+    text-align: center;
+    color: #d25c76;
+    font-size: 21px; 
+    margin-top: 3.3%;
+    margin-bottom: 4%;
+}
+
+/*The changing password container is exactly the same styling with login*/
+.setting_button{
+    border: none;
+    border-radius: 10px;
+    background-color: #af8b85;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width:60%;
+    margin-left: 19%;
+    height: 62px;
+    -webkit-box-reflect: below 5px linear-gradient(transparent, rgba(0,0,0,.2));
+    transform: scaleX(0.8);
+
+    font-weight: 900;
+    font-size: 32px;
+    color:#eee9e2;
+}
+
+.setting_button:hover{
+    transform: scaleX(0.8) translateY(-10px);
+    transition: transform 0.2s;
+}

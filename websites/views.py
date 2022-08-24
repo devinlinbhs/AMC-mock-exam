@@ -418,7 +418,8 @@ def setting():
         session['setting_user_name'] = setting_user_information[0][1]
         session['setting_password'] = setting_user_information[0][2]
         
-        return render_template("setting.html", active = 'setting')
+        
+        return render_template("setting.html", error = 'none', success = 'none')
     else:
         return redirect (url_for('auth.login'))
     

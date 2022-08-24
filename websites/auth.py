@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, session, url_for
+from flask import Blueprint, render_template, request, redirect, session, url_for
 from websites import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
 # import functions
@@ -44,7 +44,7 @@ def login():
 
                         session['user_id'] = user[0][0]
                         session['user_name'] = user[0][3]
-                        session['error']= None
+                        
                         return redirect(url_for('views.home'))
                         # Go to home page
                     else:
@@ -148,48 +148,72 @@ def add():
     
 @auth.route("/change_password", methods=["GET", "POST"])
 def change_password():
-    old_password = request.form.get('old_password')
-    new_password = request.form.get('new_password')
-    confirm_new_password = request.form.get('confirm_new_password')
-    if check_password_hash(session['setting_password'], old_password):
-    # If the old password entered correctly
-    
-        if new_password == '':
-        # No input for old password
-            flash('Please enter your new password', category='error')  
-            
-        elif confirm_new_password == '':
+    if request.method == 'POST':
+        cursor = get_db().cursor()
+        query = "SELECT account_name, user_name, password FROM user WHERE id = ?"
+        cursor.execute(query,(session['user_id'],))
+        setting_user_information = cursor.fetchall()
+        session['setting_account_name'] = setting_user_information[0][0]
+        session['setting_user_name'] = setting_user_information[0][1]
+        session['setting_password'] = setting_user_information[0][2]
+        
+        
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+        confirm_new_password = request.form.get('confirm_new_password')
+        
+        # This 2 lines doesn't matter, it's just here to remind this 2 variavles are the "flash messages"
+        error = 'none'
+        success = 'none'
+        
+        if check_password_hash(session['setting_password'], old_password):
+        # If the old password entered correctly
+
+            if new_password == '':
             # No input for old password
-            flash('Please confirm your new password', category='error')
-    
-        elif new_password != confirm_new_password:
-        # If the two new passwords are different
-            flash('Your confirm password is not the same as your new password, please check again', category='error')
-            
-        elif  check_password_hash(session['setting_password'], new_password):
-        # If the new password is literally the original password
-            flash('Your new password can\'t be the same as your original password, please change your new password', category='error')
-            
-        else:
-        # So old password correct, the two new passwords are the same, and the new is not the old, then it's fine
-        # However the password must be at least 6 characters
-            if len(new_password)<6:
-            # Password too short
-                flash('Password must be at least 6 characters.', category='error')
+                session['update_message'] = 'Please enter your new password.'
+                error = 'type1'
+                
+            elif confirm_new_password == '':
+                # No input for old password
+                session['update_message'] = 'Please confirm your new password.'
+                error = 'type1'
+                
+            elif new_password != confirm_new_password:
+            # If the two new passwords are different
+                session['update_message'] = 'Your confirm password is not the same as your new password, please check again.'
+                error = 'type2'
+                
+            elif check_password_hash(session['setting_password'], new_password):
+            # If the new password is literally the original password
+                session['update_message'] = 'Your new password can\'t be the same as your original, please change your new password.'
+                error = 'type2'
                 
             else:
-            # Finally everything is good
-                cursor = get_db().cursor()
-                query = "UPDATE user SET password = ? WHERE id = ?"
-                cursor.execute(query, (generate_password_hash(new_password), session['user_id'],))
-                get_db().commit()
-                flash('Password Changed Successfully', category='success')
+            # So old password correct, the two new passwords are the same, and the new is not the old, then it's fine
+            # However the password must be at least 6 characters
+                if len(new_password)<6:
+                # Password too short
+                    session['update_message'] = 'Password must be at least 6 characters.'
+                    error = 'type1'
+                    
+                else:
+                # Finally everything is good
+                    cursor = get_db().cursor()
+                    query = "UPDATE user SET password = ? WHERE id = ?"
+                    cursor.execute(query, (generate_password_hash(new_password), session['user_id'],))
+                    get_db().commit()
+                    session['update_message'] = 'Password Changed Successfully'
+                    success = 'exist'
+                
+        elif old_password == '':
+        # No input for old password
+            session['update_message'] = 'Please enter your old password.'
+            error = 'type1'
             
-    elif old_password == '':
-    # No input for old password
-        flash('Please enter your old password', category='error')
-        
-    else:
-    # Incorrect old password
-        flash('Incorrect old password, please try again', category='error')
-    return redirect(url_for('views.setting'))
+        else:
+        # Incorrect old password
+            session['update_message'] = 'Incorrect old password, please try again.'
+            error = 'type1'
+            
+    return render_template('setting.html', error = error, success = success)
