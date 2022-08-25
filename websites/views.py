@@ -8,20 +8,21 @@ views = Blueprint('views', __name__)
 @views.route("/")
 def home():
     try:
-        if session['login']:
+        if session['login'] == True:
             return render_template("home.html", active='home')
             # if user logged in, go to home page
         else:
             return render_template("intro.html", active='home')
         # else go to login page
     except KeyError:
+        session['login'] == False
         return render_template("intro.html", active='home')
         
 
 
 @views.route("/setting_exam")
 def setting_exam():
-    if session['login']:
+    if session['login'] == True:
         return render_template("setting_exam.html", active='setting_exam')
         # ensuring user is logged in
     else:
@@ -39,7 +40,7 @@ views.secret_key = "asdfghjkl"
 # For the users to answer muti-choice questions(Will be used for Radom Quizes and Past Exam Practices at some point)
 @views.route("/question", methods = ["GET","POST"])
 def question():
-    if session['login']:
+    if session['login'] == True:
         year = request.form['year']
         difficulty = request.form["difficulty"]
         # Get the values from the drop down menu
@@ -85,7 +86,7 @@ def question():
 # Upload the answer for each question that the users submitted
 @views.route("/upload_user_answer", methods=['GET', 'POST'])
 def upload_user_answer():
-    if session['login']:
+    if session['login'] == True:
         cursor = get_db().cursor()
         
         query = "SELECT picture_file, answer FROM question WHERE past_paper_id = ?"
@@ -177,14 +178,14 @@ def upload_user_answer():
 
 @views.route("/setting_quiz")
 def setting_quiz():
-    if session['login']:
+    if session['login'] == True:
         return render_template("setting_quiz.html", active='setting_quiz')
     else:
         return redirect (url_for('auth.login'))
 
 @views.route("/quiz", methods = ["GET","POST"])
 def quiz():
-    if session['login']:
+    if session['login'] == True:
         set = request.form["set"]
         # set will determine what type of quiz we are doing
         
@@ -262,7 +263,7 @@ def quiz():
 
 @views.route("/upload_user_answer_quiz", methods=['GET', 'POST'])
 def upload_user_answer_quiz():
-    if session['login']:
+    if session['login'] == True:
         session['answer_set'] = []
         run = session['run']
         for i in range(run):
@@ -299,7 +300,7 @@ def upload_user_answer_quiz():
     
 @views.route("/filter_completed_paper", methods = ["GET","POST"])
 def filter_completed_paper():
-    if session['login']:
+    if session['login'] == True:
         session['completed'] = []
         session['highest_score'] = []
         session['name_of_paper_list'] = []
@@ -375,7 +376,7 @@ def filter_completed_paper():
     
 @views.route("/past_result/<int:table_number>", methods = ["GET","POST"])
 def past_result(table_number):
-    if session['login']:
+    if session['login'] == True:
         cursor = get_db().cursor()
         # session['name_of_paper_list'][i][0][0] = year, session['name_of_paper_list'][i][0][1] = difficulty
         # session['highest_score'][i] = highest score of that 'year','difficulty','user'
@@ -409,7 +410,7 @@ def past_result(table_number):
     
 @views.route("/setting", methods=["GET","POST"])
 def setting():
-    if session['login']:
+    if session['login'] == True:
         cursor = get_db().cursor()
         query = "SELECT account_name, user_name, password FROM user WHERE id = ?"
         cursor.execute(query,(session['user_id'],))
