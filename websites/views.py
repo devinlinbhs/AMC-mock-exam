@@ -15,7 +15,7 @@ def home():
             return render_template("intro.html", active='home')
         # else go to login page
     except KeyError:
-        session['login'] == False
+        session['login'] = False
         return render_template("intro.html", active='home')
         
 
