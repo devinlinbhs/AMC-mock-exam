@@ -11,12 +11,18 @@
 {% block content %}
 
 <div class="login_container1" style="height: 87vh;">
+<!--A horizontal container for a whole line-->
 
     <div class="setting_container1">
+    <!--Left box-->
+
         <div class="setting_container2">
             <div class="setting_text1">Your Information</div>
         </div>
+        <!--Top for the left box-->
+
         <div class="setting_container3">
+        <!--Buttom for the left box-->
             <div class="setting_text2">
                 Account Name: <b>{{session['setting_account_name']}}</b>
             </div>
@@ -27,7 +33,9 @@
     </div>
 
     <div class="login_container2">
+    <!--Right box-->
     <div class="login_container3">
+    <!--A smaller box-->
         <div class="login_text1" style="font-size:46px; margin-bottom:8%;">
             Reset Password
         </div>
@@ -45,7 +53,7 @@
                 <div class="login_container4">
                     <label for="new_password" class="login_label">New Password:</label>
                 </div>
-                <input class ="login_input" type="password" id="new_password" name="new_password" placeholder=" Enter new password">
+                <input class ="login_input" type="password" id="new_password" name="new_password" placeholder=" At least 6 characters">
             </div>
 
             <div class="all_flex">
@@ -55,7 +63,7 @@
                 <input class ="login_input" style="margin-top:0.5vh;" type="password" id="confirm_new_password" name="confirm_new_password" placeholder=" Confirm new password">
             </div>
 
-            
+            <!--Display system messages to tell the user-->
             {% if success == 'exist' %}
                 <div class="setting_message1">{{session['update_message']}}</div>
                 <input type="submit" class="setting_button" style="margin-top: 0%;" value="Submit">

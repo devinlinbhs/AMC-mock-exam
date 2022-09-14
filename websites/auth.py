@@ -15,6 +15,7 @@ def login():
             session['login_error']= None
             session['sign_up_error']= None
         # So only can go to this route if user isn't logged in
+        
             if request.method == 'POST':
                 # Only when user is submitting data
                 
@@ -72,6 +73,8 @@ def logout():
 @auth.route('/sign_up', methods=['POST', 'GET'])
 def sign_up():
     if session['login'] == False:
+        session['login_error']= None
+        session['sign_up_error']= None
         
     # Only allow registering while user is logged out
         if request.method == 'POST':

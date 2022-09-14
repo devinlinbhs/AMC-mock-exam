@@ -1,6 +1,6 @@
 from websites import get_db
 from flask import Blueprint, redirect, request, render_template, session, url_for 
-import random
+import random, os
 
 views = Blueprint('views', __name__)
 
@@ -9,27 +9,27 @@ views = Blueprint('views', __name__)
 def home():
     try:
         if session['login'] == True:
-            return render_template("home.html", active='home')
+            return render_template("home.html")
             # if user logged in, go to home page
         else:
-            return render_template("intro.html", active='home')
+            return render_template("intro.html")
         # else go to login page
     except KeyError:
         session['login'] = False
-        return render_template("intro.html", active='home')
+        return render_template("intro.html")
         
 
 
 @views.route("/setting_exam")
 def setting_exam():
     if session['login'] == True:
-        return render_template("setting_exam.html", active='setting_exam')
+        return render_template("setting_exam.html")
         # ensuring user is logged in
     else:
         return redirect (url_for('auth.login'))
 
 
-views.secret_key = "asdfghjkl"
+views.secret_key = os.environ.get('SECRET_KEY')
 #setting up the secret key for session
 
 
@@ -78,8 +78,8 @@ def question():
         session['information'] = cursor.fetchall()
         # Get all the picture files in a tuple
         
-        return render_template("question.html", active='setting_exam')
-        # Lead to question.html, pass the picture_files to the website with the current question, and the current active website
+        return render_template("question.html")
+        # Lead to question.html, pass the picture_files to the website with the current question
     else:
         return redirect (url_for('auth.login'))
 
@@ -165,7 +165,8 @@ def upload_user_answer():
         get_db().commit()
         # Record the score about this completed paper
 
-        return render_template("score.html", run='', score=score, type="question")
+        session['run'] = ''
+        return render_template("score.html", score=score, type="question")
     else:
         return redirect (url_for('auth.login'))
 
@@ -179,7 +180,7 @@ def upload_user_answer():
 @views.route("/setting_quiz")
 def setting_quiz():
     if session['login'] == True:
-        return render_template("setting_quiz.html", active='setting_quiz')
+        return render_template("setting_quiz.html")
     else:
         return redirect (url_for('auth.login'))
 
@@ -190,11 +191,11 @@ def quiz():
         # set will determine what type of quiz we are doing
         
         difficulty = request.form["difficulty"]
-        # difficulty will determine how hard the overall paper is
+        # difficulty will determine how hard the overall quiz is
 
 
         session['file_location_set'] = []
-        # This will be passed to the website, which helps the "url_for" to find the picture file position
+        # This will be passed to the website, which helps the "url_for" to find the picture file location
         
         session['marking_scheme'] = []
         # This ensures the marking_scheme of the mixed list is passed to the marking route for 
@@ -221,21 +222,21 @@ def quiz():
         
         
         if set == "set1":
-            session['constant'] = 1
-            run = 10
-            # session['Constant'] will be add to the {i} to get the question number we supposed to be on
+            session['starting_question'] = 1
+            session['run'] = 10
+            # session['starting_question'] will be add to the {i} to get the question number we supposed to be on
             # "set" determine how many times we run the for loop
             
         elif set == "set2":
-            session['constant'] = 11
-            run = 10
+            session['starting_question'] = 11
+            session['run'] = 10
             
         else:
-            session['constant'] = 21
-            run = 5
+            session['starting_question'] = 21
+            session['run'] = 5
             
-        for i in range (run):
-            question_number = i + session['constant']
+        for i in range (session['run']):
+            question_number = i + session['starting_question']
             year = random.randint(2016, 2020)
             
             past_paper_id_value = str(past_paper_id + year - 2015)
@@ -255,8 +256,7 @@ def quiz():
             session['file_location_set'].append(session['file_location'])
             # Adding the file location of each image correspondingly to recall them in the HTML
 
-            session['run'] = run
-        return render_template("quiz.html", run=run, active = "setting_quiz")
+        return render_template("quiz.html")
     else:
         return redirect (url_for('auth.login'))
 
@@ -265,8 +265,8 @@ def quiz():
 def upload_user_answer_quiz():
     if session['login'] == True:
         session['answer_set'] = []
-        run = session['run']
-        for i in range(run):
+        session['run']
+        for i in range(session['run']):
             current_question = i+1
             # create a counting variable
 
@@ -281,17 +281,17 @@ def upload_user_answer_quiz():
         score = 0
         # Create a new variable
         
-        if run == 5:
+        if session['run'] == 5:
             type = "quiz_5"
         else:
             type = "quiz_10"
         # This tells the HTML what is the mark actually out of
         
-        for count in range(run):
+        for count in range(session['run']):
             if session['marking_scheme'][count] == session['answer_set'][count]:
                 score += 1
 
-        return render_template("score.html", run=run, score=score, type = type)
+        return render_template("score.html", score=score, type = type)
     else:
         return redirect (url_for('auth.login'))
     
@@ -404,7 +404,7 @@ def past_result(table_number):
         # Get the user answer about the highest score paper
         
         
-        return render_template("past_result.html",active="result")
+        return render_template("past_result.html")
     else:
         return redirect (url_for('auth.login'))
     
@@ -415,10 +415,12 @@ def setting():
         query = "SELECT account_name, user_name, password FROM user WHERE id = ?"
         cursor.execute(query,(session['user_id'],))
         setting_user_information = cursor.fetchall()
+        # Get user's information
+        
         session['setting_account_name'] = setting_user_information[0][0]
         session['setting_user_name'] = setting_user_information[0][1]
         session['setting_password'] = setting_user_information[0][2]
-        
+        # Pull each information out
         
         return render_template("setting.html", error = 'none', success = 'none')
     else:

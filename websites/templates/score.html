@@ -18,7 +18,7 @@
         {% else %}
         <div class="score_text">You scored {{score}} out of 10</div>
         {% endif %}
-        {% for i in range(run) %}
+        {% for i in range(session['run']) %}
         {% set current_question = i + 1 %}
             <!--Print the questions 10 or 5 times and count the current question-->
     
@@ -138,7 +138,7 @@
 </div>
 </div>
 <div class="question_sidenav">
-    {% for i in range(run) %}
+    {% for i in range(session['run']) %}
     {% set current_question = i + 1 %}
 
 

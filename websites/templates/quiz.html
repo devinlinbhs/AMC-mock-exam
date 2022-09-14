@@ -11,7 +11,7 @@
 <!--Question page contents-->
 <div class="question_container">
 <div class="question_layout">
-    {% for i in range(run) %}
+    {% for i in range(session['run']) %}
     {% set current_question = i + 1 %}
         <!--Print the questions 30 times and count the current question-->
             
@@ -71,7 +71,7 @@
 <!--Get element by id 
     get the id from side nav then turn their background color and the text color-->
 <div class="question_sidenav">
-    {% for i in range(run) %}
+    {% for i in range(session['run']) %}
     {% set current_question = i + 1 %}
     <a id="q{{current_question}}" href="#image{{current_question}}">Question {{current_question}}</a>
     {% endfor %}

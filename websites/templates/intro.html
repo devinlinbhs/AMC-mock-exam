@@ -6,7 +6,9 @@
 {% block content %}
 <div class="all_flex">
     <div class="scroll"><div class="scrolling_text">You are currently logged out</div></div>
+    <!--Fading text with background-->
     <div class="waviy">
+    <!--CSS animation-->
     <div class="home_title">
         <span style="--i:1">A</span>
         <span style="--i:2">U</span>
@@ -45,11 +47,13 @@
     </div>
     </div>
     <div class="home_container1">
-
+        <!--Right container-->
         <div class="intro_container2">
         <div class="home_container3">
+        <!--Box combination giving the shape and the layout-->
             <img src="/static/home/function_1.jpg" class="intro_image">
-            
+            <!--Image-->
+
             <div class="home_subtitle">FULL past papers in exam condition</div>
             <div class="home_text">
             Past papers difficulties involving: Junior, Intermediate, Senior<br>
@@ -59,6 +63,8 @@
             <div class="home_text">
             Only involving Q1~Q25<br>(Excluding Q26~Q30 due to their difficulties)
             </div>
+            <!--Text styling-->
+
             <form action="{{url_for('views.setting_exam')}}", method="get">
             <input type="submit" class="intro_button" value="Sign up/Login to get Started">
             </form>
