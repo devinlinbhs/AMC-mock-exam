@@ -99,10 +99,24 @@ def sign_up():
             # Account name too short
                 session['sign_up_error'] = 'Account name must be at least 6 characters.'
             
+            elif len(account_name) > 15:
+                # Account name too short
+                session['sign_up_error'] = 'Account name must be less than 16 characters.'
+            
+            elif ' ' in account_name: 
+                session['sign_up_error'] = "Account name shouldn't have space(s)"
+                
             elif len(user_name)<2:
             # Nickname too short
                 session['sign_up_error'] = 'User name must be at least 2 characters.'
                 
+            elif len(user_name)>15:
+                # Nickname too short
+                session['sign_up_error'] = 'User name must be at less than 16 characters.'
+            
+            elif ' ' in user_name: 
+                session['sign_up_error'] = "User name shouldn't have space(s)"
+            
             elif password1 != password2:
             # Passwords aren't even matching
                 session['sign_up_error'] = 'Password don\'t match.'
@@ -110,6 +124,10 @@ def sign_up():
             elif len(password1)<6:
             # Password too short
                 session['sign_up_error'] = 'Password must be at least 6 characters.'
+                
+            elif len(password1)>15:
+                # Password too short
+                session['sign_up_error'] = 'Password must be less than 16 characters.'
                 
             else:
                 session['account_name'] = account_name

@@ -12,7 +12,7 @@
 
 <div class="all_flex">
 <!--A big box that fits everything in-->
-    <div class="scroll"><div class="scrolling_text">Hi, {{session['user_name']}}<br>Welcome back!</div></div>
+    <div class="welcome_background"><div class="welcome_text">Hi, {{session['user_name']}}<br>Welcome back!</div></div>
     <!--Fading greeting with background-->
     <div class="waviy">
     <!--CSS annimation texts-->
@@ -59,7 +59,7 @@
         <div class="home_container3">
         <!--Box combination giving the shape and the layout-->
             <a href="{{url_for('views.setting_exam')}}">
-                <img src="/static/home/function_1.jpg" class="home_image">
+                <img src="/static/home/setting_exam.jpg" class="home_image">
             </a>
             <!--Image link-->
 
@@ -83,7 +83,7 @@
         <div class="home_container2">
         <div class="home_container3">
             <a href="{{url_for('views.setting_quiz')}}">
-                <img src="/static/home/function_2.jpg" class="home_image">
+                <img src="/static/home/setting_quiz.jpg" class="home_image">
             </a>
 
             <div class="home_subtitle">Random quizzes in past papers</div>
