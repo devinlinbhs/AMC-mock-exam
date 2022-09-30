@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+<!--Extend base template-->
+
+
+{% block title %}
+<title>Page not found</title>
+{% endblock %}
+
+
+
+{% block content %}
+<style>
+.body{
+    background-image: url(/static/background/error404_background.png);
+}
+</style>
+
+<div class="error404_container1">
+<div class="error404_container2">
+    <div class="error404_text">
+        <div style="opacity:0.6;">Opps...</div>
+        <div style="opacity:0.75;">This is not the page</div>
+        you were looking for...
+    </div>
+</div>
+</div>
+{% endblock %}

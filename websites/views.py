@@ -1,4 +1,4 @@
-from websites import get_db
+from websites import get_db, app
 from flask import Blueprint, redirect, request, render_template, session, url_for 
 import random, os
 
@@ -425,4 +425,8 @@ def setting():
         return render_template("setting.html", error = 'none', success = 'none')
     else:
         return redirect (url_for('auth.login'))
-    
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404

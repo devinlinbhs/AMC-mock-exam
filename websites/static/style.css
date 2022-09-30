@@ -833,3 +833,27 @@ pictures, containers*/
     transform: scaleX(0.8) translateY(-10px);
     transition: transform 0.2s;
 }
+
+
+
+
+/*Error 404 page styling*/
+.error404_container1{
+    display: flex;
+    justify-content: right;
+    width: 100vw;
+
+}
+
+.error404_container2{
+    width: 50vw;
+    height: 38vh;
+}
+
+
+.error404_text{
+    color:#4c5c9f;
+    font-size: 64px;
+    padding-top: 2vh;
+    transform: scaleX(0.85) translateX(-4vw);
+}
